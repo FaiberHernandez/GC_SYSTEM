@@ -1,13 +1,14 @@
-const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
+        const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
         document.addEventListener("DOMContentLoaded", (event) => {
             const fields = document.getElementsByClassName("count-words");
+            console.log("fields", fields);
             for (let field of fields) {
                 field.addEventListener("input", (e) => handleInputEventForCountWords(e), true);
             }
             loadPrograms();
             $('#unidad').select2({
-                placeholder: "< nombre de la unidad académica responsable curricularmente >"
-            });
+                        placeholder: "< nombre de la unidad académica responsable curricularmente >"
+                    });
             loadEducationalLevel();
             createTableCriteriaByRA();
             addKnowledgeResult();
@@ -15,13 +16,13 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             addTextareaEventListener(nombre);
             addItemInKnowledgeStructure();
             const olStructure = document.getElementsByClassName("knowledge-structure__list")[0];
-            if (olStructure) addSubitemInItem(olStructure.children[0]);
+            if(olStructure) addSubitemInItem(olStructure.children[0]);
         })
 
-        function handleInputEventForCountWords(event) {
+        function handleInputEventForCountWords(event){
             const e = event;
-            const countContainer = document.querySelector('[data-id-input="' + e.target.id + '"]');
-            if (countContainer) {
+            const countContainer = document.querySelector('[data-id-input="'+ e.target.id+'"]');
+            if(countContainer){
                 const wordsCount = e.target.value.trim().split(" ").length;
                 const text = wordsCount + " de " + countContainer.dataset.maxWords + " palabras";
                 countContainer.innerHTML = text;
@@ -30,10 +31,10 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             const height = e.target.rows ? 26 * e.target.rows : e.target.clientHeight;
             e.target.style.height = e.target.scrollHeight > e.target.clientHeight ? (e.target.scrollHeight) + "px" : height + "px";
         }
-
-        function addKnowledgeResult() {
+        
+        function addKnowledgeResult(){
             const knowledgeResults = document.getElementsByClassName("knowledge-results")[0];
-            if (knowledgeResults) {
+            if(knowledgeResults){
                 const colors = ["#2F5496", "#538135", "#806000", "#2E74B5", "#7B7B7B", "#7030A0", "#C00000", "#00B050", "#A808AC"];
                 const ras = knowledgeResults.children;
                 const consecutive = ras.length + 1;
@@ -41,28 +42,28 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 const container = createKnowledgeResult(consecutive, color);
                 knowledgeResults.appendChild(container);
                 //addRACriteriasTable(ras.length, color);
-                addRowCriteriaByRA("RA" + consecutive);
+                addRowCriteriaByRA("RA"+consecutive);
             }
         }
 
-        function createKnowledgeResult(consecutive, color) {
-            const container = createHTMLElement("div", { className: "knowledge-results__result section__field" });
+        function createKnowledgeResult(consecutive, color){
+            const container = createHTMLElement("div", {className: "knowledge-results__result section__field"});
             const spanColor = document.createElement("span");
-            spanColor.style.cssText = "display: inline-block;width: 10px; height: 10px; background: " + color + "; border-radius: 50%;"
-            const label = createHTMLElement("label", { htmlFor: "ra" + consecutive, className: "knowledge-results__result__id", innerHTML: spanColor.outerHTML + " RA" + consecutive + "." })
+            spanColor.style.cssText = "display: inline-block;width: 10px; height: 10px; background: "+color+"; border-radius: 50%;"
+            const label = createHTMLElement("label", {htmlFor: "ra"+consecutive, className: "knowledge-results__result__id", innerHTML: spanColor.outerHTML + " RA"+consecutive+"."})
             //label.append(spanColor);
-            const textarea = createHTMLElement("textarea", { name: "resultadoAprendizaje", rows: 1, id: "ra" + consecutive, className: "count-words", required: true, maxLength: 500, placeholder: "<Enunciado de un resultado de aprendizaje del curso>" })
+            const textarea = createHTMLElement("textarea", {name: "resultadoAprendizaje", rows: 1, id: "ra"+consecutive, className: "count-words", required: true, maxLength: 500, placeholder: "<Enunciado de un resultado de aprendizaje del curso>"})
             addTextareaEventListener(textarea);
-            const removeButton = createHTMLElement("button", { type: "button", className: "knowledge-remove-button", title: "Eliminar resultado de aprendizaje" })
+            const removeButton = createHTMLElement("button", {type: "button", className: "knowledge-remove-button", title: "Eliminar resultado de aprendizaje"})
             removeButton.addEventListener("click", () => removeKnowledgeResult(container));
-            const spanIconTrash = createHTMLElement("span", { className: "fas fa-times" });
-            const spanHiddenTextButton = createHTMLElement("span", { textContent: "ELIMINAR" });
+            const spanIconTrash = createHTMLElement("span", {className: "fas fa-times"});
+            const spanHiddenTextButton = createHTMLElement("span", {textContent: "ELIMINAR"});
             removeButton.append(spanIconTrash, spanHiddenTextButton);
             container.append(label, textarea, removeButton);
             return container;
         }
 
-        function createHTMLElement(tagname, props) {
+        function createHTMLElement(tagname, props){
             const newElement = document.createElement(tagname);
             for (const [key, value] of Object.entries(props)) {
                 newElement[key] = value;
@@ -70,50 +71,52 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             return newElement;
         }
 
-        function recalculateResultsConsecutive() {
+        function recalculateResultsConsecutive(){
             const knowledgeResults = document.getElementsByClassName("knowledge-results")[0].children;
-            if (knowledgeResults) {
-                for (let idx = 0; idx < knowledgeResults.length; idx++) {
+            if(knowledgeResults){
+                for(let idx = 0; idx < knowledgeResults.length; idx++){
                     const consecutive = idx + 1;
                     const result = knowledgeResults[idx];
                     const label = result.querySelector("label");
-                    if (label) {
+                    if(label){
                         label.htmlFor = "ra" + consecutive;
                         const foundSpan = label.getElementsByTagName("span")[0];
                         label.innerHTML = foundSpan.outerHTML + "RA" + consecutive + ".";
                     }
                     const textarea = result.querySelector("textarea");
-                    if (textarea) {
+                    if(textarea){
                         textarea.id = "ra" + consecutive;
                     }
                 }
             }
         }
-
-        function removeKnowledgeResult(element) {
+        
+        function removeKnowledgeResult(element){
+            console.log(element.parentNode.children);
             const idxElement = Array.from(element.parentNode.children).indexOf(element);
             element.remove();
-            removeCriteriaTable(idxElement + 1);
+            console.log(idxElement);
+            removeCriteriaTable(idxElement+1);
             recalculateResultsConsecutive();
-            removeRowCriteriaByRA("RA" + (idxElement + 1));
+            removeRowCriteriaByRA("RA"+(idxElement+1));
             setCDsToChoose(true);
         }
 
-        function addRACriteriasTable(consecutiveRA, color) {
+        function addRACriteriasTable(consecutiveRA, color){
             const tables = document.getElementsByClassName("knowledges-result-criterias__tables")[0];
-            if (tables) {
+            if(tables){
                 const table = createCriteriasTableFromResult(consecutiveRA, color);
                 tables.appendChild(table);
                 setCDsToChoose();
             }
         }
 
-        function createCriteriasTableFromResult(consecutiveRA, color) {
-            const table = createHTMLElement("table", { id: "tableRA" + consecutiveRA, className: "knowledges-result-criterias__table", "aria-describedby": "tabla RA" + consecutiveRA });
-            table.setAttribute("aria-describedby", "tabla RA" + consecutiveRA);
+        function createCriteriasTableFromResult(consecutiveRA, color){
+            const table = createHTMLElement("table", {id: "tableRA"+consecutiveRA, className: "knowledges-result-criterias__table", "aria-describedby": "tabla RA"+consecutiveRA});
+            table.setAttribute("aria-describedby", "tabla RA"+consecutiveRA);
             const thead = createHeadingTableCriteria(consecutiveRA, color);
             const tbody = document.createElement("tbody");
-            for (let idx = 0; idx < levels.length; idx++) {
+            for(let idx = 0; idx < levels.length; idx++){
                 const levelRow = createLevelRowInTable(consecutiveRA, levels[idx], idx + 1);
                 tbody.appendChild(levelRow);
             }
@@ -121,87 +124,87 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             return table;
         }
 
-        function createHeadingTableCriteria(consecutive, color) {
+        function createHeadingTableCriteria(consecutive, color){
             const thead = document.createElement("thead");
             const tableHeadingRARow = document.createElement("tr");
-            const tableCell = createHTMLElement("th", { colSpan: 2, scope: "ra", innerHTML: "RA" + consecutive });
+            const tableCell = createHTMLElement("th", {colSpan: 2, scope: "ra", innerHTML: "RA"+consecutive});
             tableCell.style.backgroundColor = color;
             tableHeadingRARow.append(tableCell);
             const tableHeadingTitlesRow = document.createElement("tr");
-            const tableNoCell = createHTMLElement("th", { scope: "no", innerHTML: "N" });
-            const tableLevelCell = createHTMLElement("th", { scope: "nivel", innerHTML: "Nivel" });
-            const tableCriteriaCell = createHTMLElement("th", { scope: "criterio", innerHTML: "Criterio" });
+            const tableNoCell = createHTMLElement("th", {scope: "no", innerHTML: "N"});
+            const tableLevelCell = createHTMLElement("th", {scope: "nivel", innerHTML: "Nivel"});
+            const tableCriteriaCell = createHTMLElement("th", {scope: "criterio", innerHTML: "Criterio"});
             tableHeadingTitlesRow.append(tableNoCell, tableLevelCell, tableCriteriaCell);
             thead.append(tableHeadingRARow, tableHeadingTitlesRow);
             return thead;
         }
 
-        function createLevelRowInTable(consecutiveRA, levelName, index) {
+        function createLevelRowInTable(consecutiveRA, levelName, index){
             const row = document.createElement("tr");
-            const tdCDID = createHTMLElement("td", { innerHTML: "CD" + index });
-            const tdLevelID = createHTMLElement("td", { innerHTML: levelName });
+            const tdCDID = createHTMLElement("td", {innerHTML: "CD"+index});
+            const tdLevelID = createHTMLElement("td", {innerHTML: levelName});
             const tdCriteria = document.createElement("td");
-            const divSectionField = createHTMLElement("div", { className: "section__field section__field--wrap" });
+            const divSectionField = createHTMLElement("div", {className: "section__field section__field--wrap"});
             const idField = `criterio-ra${consecutiveRA}-cd${index}`;
-            const labelField = createHTMLElement("label", { htmlFor: idField, className: "section__field--label-no-visible", innerHTML: "Descripción del criterio" });
-            const textarea = createHTMLElement("textarea", { name: "criterios", id: idField, rows: 2, class: "count-words", maxLength: 500, placeholder: "<enunciado con el que se expresa el criterio de desempeño definido para evaluar el logro del resultado de aprendizaje a este nivel>" })
+            const labelField = createHTMLElement("label", {htmlFor: idField, className: "section__field--label-no-visible", innerHTML: "Descripción del criterio"});
+            const textarea = createHTMLElement("textarea", {name: "criterios", id: idField, rows: 2, class: "count-words", maxLength: 500, placeholder: "<enunciado con el que se expresa el criterio de desempeño definido para evaluar el logro del resultado de aprendizaje a este nivel>"})
             addTextareaEventListener(textarea);
             divSectionField.append(labelField, textarea);
             tdCriteria.append(divSectionField);
             row.append(tdCDID, tdLevelID, tdCriteria);
             return row;
         }
-
-        function removeCriteriaTable(consecutive) {
-            const foundTable = document.getElementById("tableRA" + consecutive);
-            if (foundTable) {
+        
+        function removeCriteriaTable(consecutive){
+            const foundTable = document.getElementById("tableRA"+consecutive);
+            if(foundTable){
                 foundTable.remove();
                 recalculateConsecutiveInTables();
             }
         }
 
-        function recalculateConsecutiveInTables() {
+        function recalculateConsecutiveInTables(){
             const tables = document.querySelectorAll(".knowledges-result-criterias__tables")[0].children;
-            for (let idx = 0; idx < tables.length; idx++) {
+            for(let idx = 0; idx < tables.length; idx++){
                 const consecutive = idx + 1;
                 const result = tables[idx];
                 result.id = "tableRA" + consecutive;
                 result.setAttribute("aria-describedby", "Tabla RA " + consecutive);
                 const headingsRA = result.querySelector("thead > tr:nth-child(1) > th:nth-child(1)");
-                headingsRA.innerHTML = "RA" + consecutive;
+                headingsRA.innerHTML = "RA"+ consecutive;
             }
         }
 
-        function createTableCriteriaByRA() {
-            const table = createHTMLElement("table", { id: "matriz_table" });
+        function createTableCriteriaByRA(){
+            const table = createHTMLElement("table", {id: "matriz_table"});
             table.append(createHeadCriteriaByRA());
             const tbody = document.createElement("tbody");
             table.append(tbody);
             document.getElementById("matriz").appendChild(table);
         }
 
-        function createHeadCriteriaByRA() {
+        function createHeadCriteriaByRA(){
             const thead = document.createElement("thead");
             const tr = document.createElement("tr");
-            const thRA = createHTMLElement("th", { scope: "RA", textContent: "N" });
+            const thRA = createHTMLElement("th", {scope: "RA", textContent: "N"});
             tr.append(thRA);
-            for (const level of levels) {
-                const thLevel = createHTMLElement("th", { scope: level, textContent: level });
+            for(const level of levels){
+                const thLevel = createHTMLElement("th", {scope: level, textContent: level});
                 tr.appendChild(thLevel);
-            }
+            } 
             thead.appendChild(tr);
             return thead;
         }
 
-        function addRowCriteriaByRA(ra) {
+        function addRowCriteriaByRA(ra){
             const tbody = document.querySelector("#matriz_table > tbody") ?? document.createElement("tbody")
-            const tr = createHTMLElement("tr", { id: "tr" + ra });
+            const tr = createHTMLElement("tr", {id: "tr"+ra});
             const td = document.createElement("td");
-            td.textContent = ra;
+            td.textContent = ra; 
             tr.append(td);
-            for (const level of levels) {
+            for(const level of levels){
                 const td = document.createElement("td");
-                const textarea = createHTMLElement("textarea", { rows: 5, class: "count-words", maxLength: 500, placeholder: "<enunciado con el que se expresa el criterio de desempeño definido para evaluar el logro del resultado de aprendizaje a este nivel>" })
+                const textarea = createHTMLElement("textarea", {rows: 5, class: "count-words", maxLength: 500, placeholder: "<enunciado con el que se expresa el criterio de desempeño definido para evaluar el logro del resultado de aprendizaje a este nivel>"})
                 addTextareaEventListener(textarea);
                 td.append(textarea);
                 tr.append(td);
@@ -209,36 +212,36 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             tbody.appendChild(tr);
         }
 
-        function removeRowCriteriaByRA(ra) {
-            const tr = document.getElementById("tr" + ra);
-            if (tr) {
+        function removeRowCriteriaByRA(ra){
+            const tr = document.getElementById("tr"+ra);
+            if(tr){
                 tr.remove();
                 recalculateRowCriteriaByRA();
             }
         }
 
-        function recalculateRowCriteriaByRA() {
+        function recalculateRowCriteriaByRA(){
             const rows = document.querySelectorAll("#matriz_table > tbody > tr");
-            for (let idx = 0; idx < rows.length; idx++) {
-                rows[idx].id = "trRA" + (idx + 1);
-                rows[idx].firstChild.textContent = "RA" + (idx + 1);
+            for(let idx = 0; idx < rows.length; idx++){
+                rows[idx].id = "trRA"+(idx+1);
+                rows[idx].firstChild.textContent = "RA"+(idx+1);
             }
         }
-
-        function addNewEvidence(value = undefined) {
+        
+        function addNewEvidence(value = undefined){
             const tbody = document.querySelector("#evidencesTable > tbody");
-            if (tbody) {
+            if(tbody){
                 const newEvidenceRow = addEvidenceRow(value);
                 tbody.appendChild(newEvidenceRow);
                 setCDsToChoose();
-
+                
             }
         }
 
-        function setCDsToChoose(update = false) {
+        function setCDsToChoose(update = false){
             const data = [];
             const tables = document.getElementsByClassName("knowledges-result-criterias__table");
-            for (const table of tables) {
+            for(const table of tables){
                 const headerTable = table.querySelector("thead > tr:nth-child(1) th").textContent;
                 const CDs = Array.from(table.querySelectorAll("tbody > tr > td:nth-child(1)")).map(cd => cd.textContent);
                 data.push({
@@ -248,7 +251,7 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             }
             const options = [];
             data.forEach(d => {
-                for (const cd of d.CDs) {
+                for(const cd of d.CDs){
                     options.push({
                         id: d.ra + "-" + cd,
                         text: d.ra + "-" + cd
@@ -260,13 +263,13 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             .map(select => {
                 return Array.from(select.querySelectorAll("option")).map(option => option.value);
             }); */
-
-            if (update) {
+            
+            if(update) {
                 /* $('.selectCDs').select2().empty().trigger('change');
                 $('.selectCDs').select2('destroy').trigger('change'); */
-                $('.selectCDs-select').each(function () {
+                $('.selectCDs-select').each(function() {
                     const selectedCDs = Array.from($(this).find(":selected")).map(item => item.value);
-                    if (!selectedCDs.every(cd => options.findIndex(option => option.id == cd) > -1)) {
+                    if(!selectedCDs.every(cd => options.findIndex(option => option.id == cd) > -1)){
                         $(this).select2().empty().val(selectedCDs).trigger('change');
                     }
                     $(this).select2({
@@ -275,9 +278,10 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                         closeOnSelect: false,
                         data: [...options]
                     });
+                    console.log("selectedCDS: ", selectedCDs);
                     $(this).val(selectedCDs).trigger('change');
                 });
-            } else {
+            }else{
                 $('.selectCDs-select').select2({
                     placeholder: "Ingrese los CD evaluados",
                     multiple: true,
@@ -285,17 +289,17 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                     data: [...options]
                 });
             }
-
-
-
+            
+            
+            
         }
 
-        function addEvidenceRow(value = undefined) {
+        function addEvidenceRow(value = undefined){
             const tr = document.createElement("tr");
             const rows = document.querySelector("#evidencesTable > tbody");
             //TD evidences count
             const tdEvidenceCount = document.createElement("td");
-            const inputEvidenceCount = createHTMLElement("input", { type: "text", disabled: true, placeholder: "0", maxLength: 3 });
+            const inputEvidenceCount = createHTMLElement("input", {type: "text", disabled: true, placeholder: "0", maxLength: 3});
             inputEvidenceCount.value = rows.children.length + 1;
             inputEvidenceCount.addEventListener("input", (e) => validarNumero(e.target));
             tdEvidenceCount.appendChild(inputEvidenceCount);
@@ -333,65 +337,65 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 "Taller",
                 "Trabajo",
                 "Video"
-            ];
+                ];
             const tdEvidenceTypes = document.createElement("td");
-            const selectEvidences = createHTMLElement("select", { required: true });
-            const defaultOption = createHTMLElement("option", { disabled: true, selected: true, value: "", innerHTML: "Seleccione" });
+            const selectEvidences = createHTMLElement("select", {required: true});
+            const defaultOption = createHTMLElement("option", {disabled: true, selected: true, value: "", innerHTML: "Seleccione"});
             selectEvidences.appendChild(defaultOption);
-            for (const type of evidenceTypes) {
-                const option = createHTMLElement("option", { value: type, innerHTML: type });
+            for(const type of evidenceTypes){
+                const option = createHTMLElement("option", {value: type, innerHTML: type});
                 selectEvidences.appendChild(option);
             }
-            if (value && value.tipo) selectEvidences.value = value.tipo;
+            if(value && value.tipo) selectEvidences.value = value.tipo;
             tdEvidenceTypes.appendChild(selectEvidences);
             //TD evidence description
             const tdEvidenceDescription = document.createElement("td");
-            const textareaEvidenceDescription = createHTMLElement("textarea", { maxLength: 200, rows: 2, className: "count-words", placeholder: "Ingrese la descripción de esta evidencia" });
-            if (value && value.descripcion) textareaEvidenceDescription.value = value.descripcion;
+            const textareaEvidenceDescription = createHTMLElement("textarea", {maxLength: 200, rows: 2, className: "count-words", placeholder: "Ingrese la descripción de esta evidencia"});
+            if(value && value.descripcion) textareaEvidenceDescription.value = value.descripcion;
             addTextareaEventListener(textareaEvidenceDescription);
             tdEvidenceDescription.appendChild(textareaEvidenceDescription);
             //TD evidence description
             const tdEvidenceCDs = document.createElement("td");
-            const textareaEvidenceCDs = createHTMLElement("textarea", { maxLength: 200, rows: 2, className: "count-words selectCDs", placeholder: "Ingrese los CD evaluados" });
-            const selectEvidenceCDs = createHTMLElement("select", { maxLength: 200, className: "count-words selectCDs-select" });
-            if (value && value.CDEvaluados) textareaEvidenceCDs.value = value.CDEvaluados;
+            const textareaEvidenceCDs = createHTMLElement("textarea", {maxLength: 200, rows: 2, className: "count-words selectCDs", placeholder: "Ingrese los CD evaluados"});
+            const selectEvidenceCDs = createHTMLElement("select", {maxLength: 200, className: "count-words selectCDs-select"});
+            if(value && value.CDEvaluados) textareaEvidenceCDs.value = value.CDEvaluados;
             addTextareaEventListener(textareaEvidenceCDs);
             tdEvidenceCDs.append(selectEvidenceCDs);
             //TD evidences value
             const tdEvidenceValue = document.createElement("td");
-            const inputEvidenceValue = createHTMLElement("input", { type: "text", placeholder: "0", maxLength: 3 });
-            if (value && value.peso) inputEvidenceValue.value = value.peso;
-            const textPercentage = createHTMLElement("span", { textContent: "%" });
+            const inputEvidenceValue = createHTMLElement("input", {type: "text", placeholder: "0", maxLength: 3});
+            if(value && value.peso) inputEvidenceValue.value = value.peso;
+            const textPercentage = createHTMLElement("span", {textContent: "%"});
             inputEvidenceValue.addEventListener("input", (e) => validarNumero(e.target));
             inputEvidenceValue.addEventListener("change", (e) => checkSumRows(e.target));
             //button remove evidence
             const trChildren = document.querySelector("#evidencesTable > tbody").children;
-            if (trChildren.length > 0) {
-                const buttonRemoveEvidence = createHTMLElement("button", { className: "evaluable-evidence__remove-button", type: "button" });
-                const spanIconTrash = createHTMLElement("span", { className: "fas fa-times" });
+            if(trChildren.length > 0){
+                const buttonRemoveEvidence = createHTMLElement("button", {className: "evaluable-evidence__remove-button", type:"button"});
+                const spanIconTrash = createHTMLElement("span", {className: "fas fa-times"});
                 buttonRemoveEvidence.append(spanIconTrash);
                 buttonRemoveEvidence.innerHTML = buttonRemoveEvidence.innerHTML + " Eliminar";
                 buttonRemoveEvidence.addEventListener("click", () => removeEvidence(tr));
                 tdEvidenceValue.append(buttonRemoveEvidence);
             }
-
+            
             tdEvidenceValue.append(inputEvidenceValue, textPercentage);
-
+            
             tr.append(tdEvidenceCount, tdEvidenceTypes, tdEvidenceDescription, tdEvidenceCDs, tdEvidenceValue);
             return tr;
         }
 
-        function checkSumRows(input) {
+        function checkSumRows(input){
             const valuesInputs = Array.from(document.querySelectorAll("#evidencesTable > tbody > tr > td:nth-child(5) input")).map(input => input.value);
             const sum = valuesInputs.reduce((a, b) => Number(a) + Number(b), 0);
             const inputs = document.querySelectorAll("#evidencesTable > tbody > tr > td:nth-child(5) input");
             const table = document.querySelector("#evidencesTable");
-            for (const inputHTML of inputs) {
+            for(const inputHTML of inputs){
                 inputHTML.title = "";
                 inputHTML.classList.remove("marked-value");
             }
             table.classList.remove("error");
-            if (sum > 100) {
+            if(sum > 100){
                 input.classList.add("marked-value");
                 input.title = "La suma de los pesos evaluativos es mayor a 100";
                 table.classList.add("error");
@@ -399,30 +403,32 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
 
         }
 
-        function removeEvidence(element) {
+        function removeEvidence(element){
             element.remove();
             recalculateEvidencesNumbers();
         }
-
-        function recalculateEvidencesNumbers() {
+        
+        function recalculateEvidencesNumbers(){
             const rows = document.querySelector("#evidencesTable > tbody").children;
-            for (let idx = 0; idx < rows.length; idx++) {
+            for(let idx = 0; idx < rows.length; idx++){
+                console.log(rows[idx].firstChild);
                 const input = rows[idx].firstChild.querySelector("input");
                 input.value = idx + 1;
             }
         }
 
-        function addItemInKnowledgeStructure(value = "") {
+        function addItemInKnowledgeStructure(value = ""){
             const olStructure = document.getElementsByClassName("knowledge-structure__list")[0];
-            if (olStructure) {
+            if(olStructure){
                 const placeholder = "<Tema>";
                 const liNewItem = createItemInKnowledgeStructure(placeholder, "temas", value);
-                const actionsItems = createHTMLElement("div", { className: "knowledge-structure__actions" });
-                const buttonAddItem = createHTMLElement("button", { type: "button", className: "knowledge-structure__remove-button", innerHTML: "Agregar subtema" });
+                const actionsItems = createHTMLElement("div", {className: "knowledge-structure__actions"});
+                const buttonAddItem = createHTMLElement("button", {type: "button", className: "knowledge-structure__remove-button", innerHTML: "Agregar subtema"});
                 buttonAddItem.addEventListener("click", () => addSubitemInItem(liNewItem));
                 actionsItems.append(buttonAddItem);
-                if (olStructure.children.length > 0) {
-                    const buttonRemoveItem = createHTMLElement("button", { type: "button", className: "knowledge-structure__remove-button", innerHTML: "Eliminar tema" });
+                console.log("olStructure.children: ", olStructure.children)
+                if(olStructure.children.length > 0){
+                    const buttonRemoveItem = createHTMLElement("button", {type: "button", className: "knowledge-structure__remove-button", innerHTML: "Eliminar tema"});
                     buttonRemoveItem.addEventListener("click", () => liNewItem.remove());
                     actionsItems.append(buttonRemoveItem);
                 }
@@ -431,35 +437,35 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             }
         }
 
-        function createItemInKnowledgeStructure(placeholder, name, value = "") {
+        function createItemInKnowledgeStructure(placeholder, name, value = ""){
             const li = document.createElement("li");
-            const textareaItem = createHTMLElement("textarea", { name: name, maxLength: 500, rows: 1, className: "count-words", placeholder: placeholder });
-            if (value) textareaItem.value = value;
+            const textareaItem = createHTMLElement("textarea", {name: name, maxLength: 500, rows: 1, className: "count-words", placeholder: placeholder});
+            if(value) textareaItem.value = value;
             addTextareaEventListener(textareaItem);
             li.appendChild(textareaItem);
             return li;
         }
 
-        function addSubitemInItem(item, value = "") {
+        function addSubitemInItem(item, value = ""){
             const existsUl = item.querySelector("ul") != undefined;
             let ulItems = item.querySelector("ul") ?? document.createElement("ul");
-            if (ulItems) {
+            if(ulItems){
                 const placeholder = "<Subtema>";
                 const liSubitem = createItemInKnowledgeStructure(placeholder, "subtemas", value);
-                const buttonRemoveItem = createHTMLElement("button", { type: "button", className: "knowledge-structure__remove-subitem-button", innerHTML: "Eliminar subtema" });
+                const buttonRemoveItem = createHTMLElement("button", {type: "button", className: "knowledge-structure__remove-subitem-button", innerHTML: "Eliminar subtema"});
                 buttonRemoveItem.addEventListener("click", () => liSubitem.remove());
                 liSubitem.append(buttonRemoveItem);
                 ulItems.appendChild(liSubitem);
             }
-            if (!existsUl) item.appendChild(ulItems);
-
+            if(!existsUl) item.appendChild(ulItems);
+            
         }
 
-        function addTextareaEventListener(text) {
+        function addTextareaEventListener(text){
             var observe;
             if (window.attachEvent) {
                 observe = function (element, event, handler) {
-                    element.attachEvent('on' + event, handler);
+                    element.attachEvent('on'+event, handler);
                 };
             }
             else {
@@ -468,19 +474,19 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 };
             }
 
-            function resize() {
+            function resize () {
                 text.style.height = 'auto';
-                if (text.scrollHeight) text.style.height = (text.scrollHeight + 4) + 'px';
+                if(text.scrollHeight) text.style.height = (text.scrollHeight + 4)+'px';
             }
             /* 0-timeout to get the already changed text */
-            function delayedResize() {
+            function delayedResize () {
                 window.setTimeout(resize, 0);
             }
-
-            observe(text, 'change', resize);
-            observe(text, 'cut', delayedResize);
-            observe(text, 'paste', delayedResize);
-            observe(text, 'drop', delayedResize);
+            
+            observe(text, 'change',  resize);
+            observe(text, 'cut',     delayedResize);
+            observe(text, 'paste',   delayedResize);
+            observe(text, 'drop',    delayedResize);
             observe(text, 'keydown', delayedResize);
 
             text.focus();
@@ -488,22 +494,22 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             resize();
         }
 
-
-
-        function addRequiredKnowledge(value = "") {
+        
+        
+        function addRequiredKnowledge(value = ""){
             const requiredKnowledges = document.getElementsByClassName("required-preknowledges__list")[0];
-            if (requiredKnowledges) {
+            if(requiredKnowledges){
                 requiredKnowledges.appendChild(createRequiredKnowledge(value));
             }
         }
-
-        function createRequiredKnowledge(value = "") {
+        
+        function createRequiredKnowledge(value = ""){
             const li = document.createElement("li");
-            const textareaItem = createHTMLElement("textarea", { maxLength: 500, rows: 1, className: "count-words", placeholder: "<Presaber (frase que enuncia un resultado de aprendizaje requerido para tomar el curso)>" });
-            if (value) textareaItem.value = value;
+            const textareaItem = createHTMLElement("textarea", {maxLength: 500, rows: 1, className: "count-words", placeholder: "<Presaber (frase que enuncia un resultado de aprendizaje requerido para tomar el curso)>"});
+            if(value) textareaItem.value = value;
             addTextareaEventListener(textareaItem);
-            const buttonRemoveItem = createHTMLElement("button", { name: "presaber", type: "button", className: "required-preknowledges__remove-button" });
-            const spanIconTrash = createHTMLElement("span", { className: "fas fa-times" });
+            const buttonRemoveItem = createHTMLElement("button", {name: "presaber", type: "button", className: "required-preknowledges__remove-button"});
+            const spanIconTrash = createHTMLElement("span", {className: "fas fa-times"});
             buttonRemoveItem.append(spanIconTrash);
             buttonRemoveItem.innerHTML = buttonRemoveItem.innerHTML + " Eliminar";
             buttonRemoveItem.addEventListener("click", () => li.remove());
@@ -511,29 +517,30 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             return li;
         }
 
-        function addReference(value = "") {
+        function addReference(value = ""){
             const references = document.getElementsByClassName("references__list")[0];
-            if (references) {
+            if(references){
                 references.appendChild(createReference(value));
             }
         }
-
-        function createReference(value = "") {
+        
+        function createReference(value = ""){
             const li = document.createElement("li");
-            const textareaItem = createHTMLElement("textarea", { maxLength: 500, rows: 1, className: "count-words", placeholder: "<Referencia a material de estudio a utilizar en el curso>" });
-            if (value) textareaItem.value = value;
+            const textareaItem = createHTMLElement("textarea", {maxLength: 500, rows: 1, className: "count-words", placeholder: "<Referencia a material de estudio a utilizar en el curso>"});
+            if(value) textareaItem.value = value;
             addTextareaEventListener(textareaItem);
-            const buttonRemoveItem = createHTMLElement("button", { name: "referencia", type: "button", className: "references__remove-button" });
-            const spanIconTrash = createHTMLElement("span", { className: "fas fa-times" });
+            const buttonRemoveItem = createHTMLElement("button", {name: "referencia", type: "button", className: "references__remove-button"});
+            const spanIconTrash = createHTMLElement("span", {className: "fas fa-times"});
             buttonRemoveItem.append(spanIconTrash);
             buttonRemoveItem.innerHTML = buttonRemoveItem.innerHTML + " Eliminar";
             buttonRemoveItem.addEventListener("click", () => li.remove());
             li.append(textareaItem, buttonRemoveItem);
             return li;
         }
-
-        function saveData() {
+        
+        function saveData(){
             const formulario = document.getElementById('form');
+            console.log("datos: ", formulario.elements);
             const presaber = getDataAsArray(".required-preknowledges__list textarea");
             const referencia = getDataAsArray(".references__list textarea");
             const resultadoAprendizaje = getDataAsArray(".knowledge-results__result textarea");
@@ -547,26 +554,27 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                     datos[input.name] = input.value;
                 }
             }
-            datos["fecha"] = obtenerFechaActual();
-            datos["ip"] = document.getElementById("ip").textContent;
-            downloadData({ ...datos, presaber, referencia, resultadoAprendizaje, criterios, evidencias, temas });
+            datos["fecha"]=obtenerFechaActual();
+            datos["ip"]=document.getElementById("ip").textContent;
+            console.log({...datos, presaber, referencia, resultadoAprendizaje, criterios, evidencias, temas});
+            downloadData({...datos, presaber, referencia, resultadoAprendizaje, criterios, evidencias, temas});
         }
 
-        function getDataAsArray(selector) {
+        function getDataAsArray(selector){
             const presaberes = document.querySelectorAll(selector);
             return presaberes ? Array.from(presaberes).map(presaber => presaber.value) : [];
         }
-        function getCriterias() {
+        function getCriterias(){
             const tables = document.getElementsByClassName("knowledges-result-criterias__table");
             const result = Array.from(tables).map(table => {
                 const ra = table.querySelector("thead > tr:nth-child(1) > th:nth-child(1)").textContent;
                 const value = Array.from(table.querySelectorAll("tbody > tr textarea")).map(text => text.value);
-                return { ra, value };
+                return {ra, value};
             })
             return result;
         }
 
-        function getKnowledgeStructure() {
+        function getKnowledgeStructure(){
             return Array.from(document.querySelectorAll(".knowledge-structure__list > li")).map(item => {
                 return {
                     item: item.querySelector("textarea").value,
@@ -575,20 +583,21 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             });
         }
 
-        function getEvidences() {
+        function getEvidences(){
             const evidences = document.querySelectorAll(".evaluable-evidence__table > tbody > tr");
             const result = Array.from(evidences).map(evidence => {
                 const cantidad = evidence.querySelector("td:nth-child(1) input").value;
                 const tipo = evidence.querySelector("td:nth-child(2) select").value;
                 const descripcion = evidence.querySelector("td:nth-child(3) textarea").value;
+                console.log("selectCD getEvidence: ", Array.from($(evidence.querySelector("td:nth-child(4) select")).find(":selected")).map(item => item.value));
                 const CDEvaluados = Array.from($(evidence.querySelector("td:nth-child(4) select")).find(":selected")).map(item => item.value);
                 const peso = evidence.querySelector("td:nth-child(5) input").value;
-                return { cantidad, tipo, descripcion, CDEvaluados, peso };
+                return {cantidad, tipo, descripcion, CDEvaluados, peso};
             })
             return result;
         }
-
-        function loadPrograms() {
+    
+        function loadPrograms(){
             const programas = [
                 "Centro de Plurilingüismo",
                 "Centro de Posgrado y Formación Continua",
@@ -810,13 +819,13 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 "Requisito de Grado"
             ];
             const selectUnidad = document.getElementById("unidad");
-            for (const programa of programas) {
-                const option = createHTMLElement("option", { value: programa, textContent: programa });
+            for(const programa of programas){
+                const option = createHTMLElement("option", {value: programa, textContent: programa});
                 selectUnidad.appendChild(option);
             }
         }
 
-        function loadEducationalLevel() {
+        function loadEducationalLevel(){
             const educationalLevels = [
                 "Educación Continuada",
                 "Diplomado",
@@ -829,14 +838,11 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 "Doctorado"
             ];
             const selectLevel = document.getElementById("nivel");
-            for (const level of educationalLevels) {
-                const option = createHTMLElement("option", { value: level, textContent: level });
+            for(const level of educationalLevels){
+                const option = createHTMLElement("option", {value: level, textContent: level});
                 selectLevel.appendChild(option);
             }
         }
-
-
-        /* Logica para print */
 
         function imprimir() {
             window.jsPDF = window.jspdf.jsPDF;
@@ -862,106 +868,107 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 y: 0
             }); 
             console.log("imprimir"); */
-        
+            
             window.print();
         }
-        
+ 
         function validarNumero(input) {
             // Elimina cualquier carácter que no sea un dígito
             input.value = input.value.replace(/\D/g, '');
-        
+            
             // Convierte el valor a un entero
             var numero = parseInt(input.value, 10);
-        
+            
             // Valida si el número es un entero positivo
             if (isNaN(numero) || numero < 0) {
                 // Si el valor no es un número entero positivo, restablece el campo de entrada
                 input.value = '';
             }
-        
+            
         
         }
-        
-        document.getElementById("creditos").addEventListener("input", function () {
-            total = document.getElementById("creditos").value * 48;
-            document.getElementById("horasT").value = total;
+       
+        document.getElementById("creditos").addEventListener("input",function(){
+            total=document.getElementById("creditos").value*48;
+            document.getElementById("horasT").value=total;
             calcularProporcion(document.getElementById("proporcion"));
         });
         
-        function calcularProporcion(input) {
-            const valor = input.value;
-            if (valor) {
-                const partes = valor.split(':');
-                const n1 = parseInt(partes[0]);
-                const n2 = parseInt(partes[1]);
-        
-                document.getElementById("horasA").value = Math.round(document.getElementById("horasT").value / (n1 + n2) * n1);
-                document.getElementById("horasI").value = Math.round(document.getElementById("horasT").value / (n1 + n2) * n2);
+        function calcularProporcion(input){
+            const valor=input.value;
+            if(valor){
+                const partes=valor.split(':');
+            const n1=parseInt(partes[0]);
+            const n2=parseInt(partes[1]);
+            
+            document.getElementById("horasA").value=Math.round(document.getElementById("horasT").value/(n1+n2)*n1);
+            document.getElementById("horasI").value=Math.round(document.getElementById("horasT").value/(n1+n2)*n2);
             }
         }
-        $.getJSON('https://api.ipify.org?format=json', function (data) {
-            document.getElementById("ip").textContent = "IP: " + data.ip + " - Fecha: " + obtenerFechaActual();
+        $.getJSON('https://api.ipify.org?format=json', function(data){
+            document.getElementById("ip").textContent="IP: "+data.ip + " - Fecha: " + obtenerFechaActual();
         });
-        
+
         // Función para guardar los datos del formulario en un archivo JSON
         function guardarDatos() {
             const formulario = document.getElementById('miFormulario');
             const datos = {};
-        
+
             for (const input of formulario.elements) {
                 if (input.name) {
                     datos[input.name] = input.value;
                 }
             }
-            datos["fecha"] = obtenerFechaActual();
-            datos["ip"] = document.getElementById("ip").textContent;
-            datos["totalra"] = campoIndexRa;
-            datos["totalTemas"] = temaIndex;
-            datos["totalPresaber"] = presaberIndex;
-            datos["totalReferencias"] = referenciasIndex;
-            datos["temas"] = temas;
+            datos["fecha"]=obtenerFechaActual();
+            datos["ip"]=document.getElementById("ip").textContent;
+            datos["totalra"]=campoIndexRa;
+            datos["totalTemas"]=temaIndex;
+            datos["totalPresaber"]=presaberIndex;
+            datos["totalReferencias"]=referenciasIndex;
+            datos["temas"]=temas;
             downloadData(datos);
         }
-        
-        function downloadData(data) {
+
+        function downloadData(data){
             const datosJSON = JSON.stringify(data);
             const blob = new Blob([datosJSON], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
-        
+
             const a = document.createElement('a');
             a.href = url;
-            if (data["codigo"] != "") {
-                a.download = data["codigo"] + '.cum';
-            } else {
+            if(data["codigo"]!=""){
+                a.download = data["codigo"]+'.cum';
+            }else{
                 a.download = 'datos.cum';
             }
             a.click();
         }
-        
+      
         function obtenerFechaActual() {
             // Crear un objeto Date
             const fechaActual = new Date();
-        
+
             // Obtener el día, mes y año
             const dia = fechaActual.getDate();
             const mes = fechaActual.getMonth() + 1; // Nota: los meses en JavaScript comienzan desde 0
             const año = fechaActual.getFullYear();
-        
+
             // Formatear la fecha
             const fechaFormateada = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
             return fechaFormateada;
         }
-        
+
         // Función para cargar datos desde un archivo JSON
         function cargarDatosDesdeArchivo() {
             const archivoEntrada = document.getElementById('archivoEntrada');
             const file = archivoEntrada.files[0];
-        
+            
             if (file) {
                 const reader = new FileReader();
-        
+
                 reader.onload = function (e) {
                     const datos = JSON.parse(e.target.result);
+                    console.log(datos);
                     const elements = document.getElementById('form').elements;
                     for (const input of elements) {
                         if (input.name && datos[input.name]) {
@@ -971,12 +978,12 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                     $('#unidad').select2({
                         placeholder: "< nombre de la unidad académica responsable curricularmente >"
                     });
-                    if (nombre.value) {
-                        nombre.style.height = (nombre.scrollHeight) + 'px';
+                    if(nombre.value){
+                        nombre.style.height = (nombre.scrollHeight)+'px';
                     }
-                    if (descripcion.value) {
-                        descripcion.style.height = (descripcion.scrollHeight) + 'px';
-                        handleInputEventForCountWords({ target: descripcion });
+                    if(descripcion.value){
+                        descripcion.style.height = (descripcion.scrollHeight)+'px';
+                        handleInputEventForCountWords({target: descripcion});
                     }
                     showKnowledgeResults(datos.resultadoAprendizaje);
                     showCriteriaTables(datos.criterios);
@@ -985,114 +992,115 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                     showRequiredKnowledge(datos.presaber);
                     showReferences(datos.referencia);
                 };
-        
+
                 reader.readAsText(file);
             }
         }
-        
-        function showKnowledgeResults(results) {
+
+        function showKnowledgeResults(results){
             knowledgeResults.innerHTML = "";
             resultCriteria.innerHTML = "";
-            for (const result of results) {
+            for(const result of results){
                 addKnowledgeResult();
             }
             const createdResults = document.getElementsByClassName("knowledge-results__result");
-            for (let idx = 0; idx < createdResults.length; idx++) {
+            for(let idx = 0; idx < createdResults.length; idx++){
                 const textarea = createdResults[idx].querySelector("textarea");
                 textarea.value = results[idx];
-                textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                textarea.style.height = (textarea.scrollHeight + 4)+'px';
             }
-        
+            
         }
-        
-        function showCriteriaTables(criterios) {
+    
+        function showCriteriaTables(criterios){
             const tables = document.getElementsByClassName("knowledges-result-criterias__table");
-            for (const criterio of criterios) {
-                const table = document.getElementById("table" + criterio.ra);
-                if (table) {
+            for(const criterio of criterios){
+                const table = document.getElementById("table"+criterio.ra);
+                if(table){
                     const textareas = table.querySelectorAll("tbody > tr > td textarea");
-                    for (let idx = 0; idx < textareas.length; idx++) {
+                    for(let idx = 0; idx < textareas.length; idx++){
                         textareas[idx].value = criterio.value[idx];
-                        textareas[idx].style.height = (textareas[idx].scrollHeight + 4) + 'px';
+                        textareas[idx].style.height = (textareas[idx].scrollHeight + 4)+'px';
                     }
                 }
             }
         }
-        
-        function showEvidences(evidencias) {
-            if (evidencias && evidencias.length > 0) {
+    
+        function showEvidences(evidencias){
+            if(evidencias && evidencias.length > 0){
                 const tbody = evidencesTable.querySelector("tbody");
                 tbody.innerHTML = "";
-                for (const evidencia of evidencias) {
+                for(const evidencia of evidencias){
                     addNewEvidence(evidencia);
+                    console.log("CDEvidencias: ", evidencia.CDEvaluados, tbody.querySelector("tr:last-child > td:nth-child(4) select"));
                     $(tbody.querySelector("tr:last-child > td:nth-child(4) select")).val(evidencia.CDEvaluados);
                     $(tbody.querySelector("tr:last-child > td:nth-child(4) select")).trigger('change');
-        
+                    
                 }
                 const textareas = tbody.querySelectorAll("tr > td textarea");
-                for (const textarea of textareas) {
-                    textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                for(const textarea of textareas){
+                    textarea.style.height = (textarea.scrollHeight + 4)+'px';
                 }
                 /* const select2textarea = tobyd.querySelectorAll("tr > td:nth-child(4) textarea");
                 for(const select2 of select2textarea){
                     $(select2).val(selectedCDs).trigger('change');
                 } */
             }
-        
+            
         }
-        
-        function showKnowledgeStructure(temas) {
-            if (temas && temas.length > 0) {
+    
+        function showKnowledgeStructure(temas){
+            if(temas && temas.length > 0){
                 const list = document.getElementsByClassName("knowledge-structure__list")[0];
-                if (list) {
+                if(list) {
                     list.innerHTML = "";
-                    for (const tema of temas) {
+                    for(const tema of temas){
                         addItemInKnowledgeStructure(tema.item);
-                        for (const subtema of tema.subitems) {
-                            const lastLi = document.querySelector(".knowledge-structure__list > li:last-child");
+                        for(const subtema of tema.subitems){
+                            const lastLi = document.querySelector(".knowledge-structure__list > li:last-child"); 
                             addSubitemInItem(lastLi, subtema);
                         }
                     }
                     const textareas = list.querySelectorAll("textarea");
-                    for (const textarea of textareas) {
-                        textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                    for(const textarea of textareas){
+                        textarea.style.height = (textarea.scrollHeight + 4)+'px';
                     }
                 }
             }
-        
+            
         }
-        
-        function showRequiredKnowledge(presaberes) {
-            if (presaberes && presaberes.length > 0) {
+
+        function showRequiredKnowledge(presaberes){
+            if(presaberes && presaberes.length > 0){
                 const list = document.getElementsByClassName("required-preknowledges__list")[0];
-                if (list) {
+                if(list) {
                     list.innerHTML = "";
-                    for (const presaber of presaberes) {
+                    for(const presaber of presaberes){
                         addRequiredKnowledge(presaber);
-        
+                        
                     }
                     const textareas = list.querySelectorAll("textarea");
-                    for (const textarea of textareas) {
-                        textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                    for(const textarea of textareas){
+                        textarea.style.height = (textarea.scrollHeight + 4)+'px';
                     }
                 }
             }
-        
+            
         }
-        function showReferences(referencias) {
-            if (referencias && referencias.length > 0) {
+        function showReferences(referencias){
+            if(referencias && referencias.length > 0){
                 const list = document.getElementsByClassName("references__list")[0];
-                if (list) {
+                if(list) {
                     list.innerHTML = "";
-                    for (const referencia of referencias) {
+                    for(const referencia of referencias){
                         addReference(referencia);
-        
+                        
                     }
                     const textareas = list.querySelectorAll("textarea");
-                    for (const textarea of textareas) {
-                        textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                    for(const textarea of textareas){
+                        textarea.style.height = (textarea.scrollHeight + 4)+'px';
                     }
                 }
             }
-        
+            
         }
