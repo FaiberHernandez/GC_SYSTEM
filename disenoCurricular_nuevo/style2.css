@@ -1,0 +1,623 @@
+.sheet__wrapper{
+    background-color: #FBFBFB;
+    padding: 1.5cm 0;
+}
+.sheet{
+    background-color: white;
+    border: 1px solid lightgrey;
+    padding: 1cm 2.5cm;
+    width: 21.9cm;
+    margin: 0 auto;
+}
+.sheet__content__header{
+    border-bottom: 1px solid black;
+    opacity: 0.8;
+    margin-bottom: .5cm;
+    display: flex;
+    align-items: center;
+}
+.sheet__content__header__img{
+    display: inline-block;
+    width: 1.7cm;
+}
+.sheet__content__header__img > img{
+    height: 1.8cm;
+}
+.sheet__content__header__text{
+    display: inline-block;
+    vertical-align: top;
+    width: 12cm;
+}
+.sheet__content__header__text > h2 .institution-name{
+    font-size: 12pt;
+    font-weight: bold;
+    color: #1F3864;
+}
+.sheet__content__header__text > h2 .dependency-name{
+    font-size: 10pt;
+    color: #1F3864;
+}
+.sheet__content__header__text > h2 .hightlight{
+    font-size: 16pt;
+    font-weight: bold;
+}
+.sheet__content__header__text > h2 > span{
+    display: block;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+.sheet__section{
+    margin-bottom: .5cm;
+}
+.sheet__section__title{
+    background-color: black;
+    padding: 2px;
+    color: white;
+    margin-bottom: .5cm;
+}
+.sheet__section__title__number{
+    display: inline-block;
+    margin-right: .5cm;
+    font-size: 14pt;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+.sheet__section__title > h3{
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 14pt;
+    margin: 0;
+}
+.section__field{
+    margin-bottom: .1cm;
+    display: flex;
+    align-items: center;
+}
+.section__field.section__field--wrap{
+    flex-wrap: wrap;
+}
+.section__field > label{
+    color: #2F5496;
+    font-size: 10pt;
+    font-family: 'Trebuchet MS', sans-serif;
+    display: inline-block;
+    margin: 0;
+    margin-right: .25cm;
+    text-wrap: nowrap;
+}
+.section__field > label.section__field--label-no-visible{
+    display: none;
+}
+.section__field > input, .section__field > textarea, .section__field > select,
+.section__table > tbody > tr > td > input, .section__table > tbody > tr > td > textarea, 
+.section__table > tbody > tr > td > select,
+.knowledge-structure__list input, .knowledge-structure__list textarea,
+.required-preknowledges__list textarea,
+.references__list textarea,
+#matriz_table > tbody > tr > td textarea{
+    width: 100%;
+    font-size: 10pt;
+    font-family: 'Trebuchet MS', sans-serif;
+    border: 1px solid transparent;
+}
+.section__table > tbody > tr > td > input, .section__table > tbody > tr > td > select{
+    background-color: inherit;
+}
+.section__field > select{
+    padding: 2px 0;
+}
+.section__field > textarea, .section__table > tbody > tr > td > textarea,
+.knowledge-structure__list textarea,
+.required-preknowledges__list textarea,
+.references__list textarea,
+#matriz_table > tbody > tr > td textarea{
+    resize: none;
+    background-color: inherit;
+    overflow: hidden;
+}
+.section__field > input:hover:not(:disabled), .section__field > textarea:hover, .section__field > select:hover,
+.required-preknowledges__list textarea:hover,
+.references__list textarea:hover{
+    background-color: #FBFBFB;
+    border-color: #dddddd;
+}
+.section__field > input:focus, .section__field > textarea:focus, .section__field > select:focus{
+    border-color: #CCCCCC;
+}
+.section__field > select:invalid {
+    color: #757575;
+}
+.section__field > select option{
+    color: black;
+    padding: 2px 0;
+}
+.section__field > textarea + .word-count{
+    display: none;
+    text-align: right;
+    font-size: 9pt;
+    font-family: 'Trebuchet MS', sans-serif;
+    color: grey;
+    width:100%;
+}
+.section__field > textarea:focus + .word-count{
+    display: block;
+}
+.sheet__section__description{
+    color: #2F5496;
+    font-size: 10pt;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-style: italic;
+    margin: 0;
+    margin-bottom: .5cm;
+}
+.section__field > label.knowledge-results__result__id{
+    font-size: 10pt;
+    font-weight: bold;
+}
+.knowledge-remove-button{
+    border: 0;
+    font-size: .875rem;
+    padding: 2px 8px;
+    width: 100px;
+    font-family: 'Trebuchet MS', sans-serif;
+    background-color: #bb2d3b;
+    font-weight: bold;
+    color: white;
+    display: none;
+    position: absolute;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    left: 100%;
+}
+.knowledge-remove-button span:nth-child(1){
+    display: inline-block;
+    margin-right: .5rem;
+}
+.knowledge-results__result{
+    position: relative;
+    align-items: stretch;
+}
+.knowledge-results__result > label{
+    align-self: flex-start;
+}
+.knowledge-results__result:hover .knowledge-remove-button{
+    display: inline-block;
+}
+.knowledge-results__buttons__add, .evaluable-evidence__buttons__add,
+.knowledge-structure__buttons__add,
+.required-preknowledges__buttons__add,
+.references__buttons__add{
+    font-size: 10pt;
+    border: 0;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: white;
+    width: 100%;
+    text-align: left;
+    display: none;
+}
+.knowledge-results__buttons__add > span.fas, .evaluable-evidence__buttons__add > span.fas,
+.knowledge-structure__buttons__add > span.fas,
+.required-preknowledges__buttons__add > span.fas,
+.references__buttons__add > span.fas{
+    margin-right: 1.5rem;
+}
+#knowledges-result, .evaluable-evidence, .knowledge-structure__wrapper, 
+#required-knowledge, #references{
+    padding-bottom: 26px;
+}
+#knowledges-result:hover, .evaluable-evidence:hover, .knowledge-structure__wrapper:hover,
+#required-knowledge:hover, #references:hover{
+    padding-bottom: 0;
+}
+#knowledges-result:hover .knowledge-results__buttons__add,
+.evaluable-evidence:hover .evaluable-evidence__buttons__add,
+.knowledge-structure__wrapper:hover .knowledge-structure__buttons__add,
+#required-knowledge:hover .required-preknowledges__buttons__add,
+#references:hover .references__buttons__add{
+    display: inline-block;
+    opacity: .5;
+    color: #2F5496;
+}
+#knowledges-result:hover .knowledge-results__buttons__add:hover, .knowledge-results__buttons__add:focus,
+.evaluable-evidence:hover .evaluable-evidence__buttons__add:hover, .evaluable-evidence__buttons__add:focus,
+.knowledge-structure__wrapper:hover .knowledge-structure__buttons__add:hover, .knowledge-structure__buttons__add:focus,
+#required-knowledge:hover .required-preknowledges__buttons__add:hover, .required-preknowledges__buttons__add:focus,
+#references:hover .references__buttons__add:hover, .references__buttons__add:focus{
+    opacity: 1;
+    box-shadow: 0px 0px 3px 0px rgb(0, 163, 255);
+}
+.sr-only {
+    border: 0;
+    clip: rect(0,0,0,0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+.knowledges-result-criterias__table, .evaluable-evidence__table, #matriz_table{
+    font-size: 10pt;
+    font-family: 'Trebuchet MS', sans-serif;
+    width: 100%;
+    margin-bottom: .5cm;
+    border-collapse: collapse;
+}
+.knowledges-result-criterias__table > thead > tr:nth-child(1) > th:nth-child(1){
+    background-color: #2F5496;
+    color: white;
+    border: 1px solid black;
+    text-align: center;
+}
+.knowledges-result-criterias__table > thead > tr > th, .knowledges-result-criterias__table > tbody > tr > td,
+.evaluable-evidence__table > thead > tr > th, .evaluable-evidence__table > tbody > tr > td,
+#matriz_table > thead > tr > th, #matriz_table > tbody > tr > td{
+    padding: .05cm .19cm;
+    border: .5px solid black;
+}
+#matriz_table > tbody > tr > td{
+    padding: .05cm .1cm;
+    font-size: 9pt;
+    vertical-align: top;
+}
+#matriz_table > tbody > tr > td textarea{
+    width: 100%;
+    font-size: 9pt;
+}
+.knowledges-result-criterias__table > tbody > tr > td:nth-child(3){
+    font-size: 9pt;
+}
+.knowledges-result-criterias__table > tbody > tr > td:nth-child(1){
+    width: 40px;
+}
+.knowledges-result-criterias__table > tbody > tr > td:nth-child(2){
+    width: 80px;
+}
+.knowledges-result-criterias__table > tbody > tr:nth-child(odd),
+.evaluable-evidence__table > tbody > tr:nth-child(odd){
+    background-color: #EEEEEE;
+}
+.evaluable-evidence__table > tbody > tr > td:nth-child(1){
+    width: 50px;
+}
+.evaluable-evidence__table > tbody > tr > td:nth-child(2){
+    width: 110px;
+}
+.evaluable-evidence__table > tbody > tr > td:nth-child(2) select{
+    text-wrap: wrap;
+    height: 38px;
+}
+.evaluable-evidence__table > tbody > tr > td:nth-child(4){
+    width: 170px;
+}
+.evaluable-evidence__table > thead > tr > th:nth-child(5){
+    text-align: center;
+}
+.evaluable-evidence__table > tbody > tr > td:nth-child(5){
+    width: 50px;
+    position: relative;
+    text-wrap: nowrap;
+}
+.evaluable-evidence__table > tbody > tr > td:nth-child(5) input{
+    width: 29px;
+    text-align: right;
+}
+.evaluable-evidence__table > tbody > tr > td:nth-child(5) input.marked-value{
+    color: darkred;
+    font-weight: bold;
+}
+.evaluable-evidence__remove-button, .required-preknowledges__remove-button,
+.references__remove-button{
+    position: absolute;
+    left: 100%;
+    border: 0;
+    font-size: 10pt;
+    background: #bb2d3b;
+    color: white;
+    padding: 6px 8px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: none;
+    width: 100px;
+}
+
+.required-preknowledges__remove-button, .references__remove-button{
+    padding: 3px 8px;
+}
+.evaluable-evidence__table tr:hover .evaluable-evidence__remove-button,
+.required-preknowledges__list li:hover .required-preknowledges__remove-button,
+.references__list li:hover .references__remove-button{
+    display: inline-block;
+}
+.knowledge-structure__list{
+    font-size: 10pt;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+.knowledge-structure__list > li textarea, .required-preknowledges__list textarea,
+.references__list textarea{
+    vertical-align: middle;
+}
+.knowledge-structure__list > li, .required-preknowledges__list li,
+.references__list li{
+    position: relative;
+}
+.knowledge-structure__actions{
+    position: absolute;
+    left: 100%;
+    border: 0;
+    background: #fbfbfb;
+    text-transform: uppercase;
+    border: 1px solid #CCCCCC;
+    min-width: 130px;
+    z-index: 10;
+    display: none;
+}
+.knowledge-structure__actions button{
+    border: 0;
+    background-color: inherit;
+    font-size: 10pt;
+    padding: 4px 12px;
+    text-align: left;
+    width: 100%;
+}
+.knowledge-structure__list > li:hover{
+    background-color: #eeeeee;
+}
+.knowledge-structure__list > li:hover .knowledge-structure__actions{
+    display: inline-block;
+}
+.toolbar-wrapper{
+    text-align: center;
+    position: sticky;
+    top: 0;
+    background-color: #FBFBFB;
+    margin-bottom: 1rem;
+    z-index: 11;
+}
+.toolbar{
+    display: flex;
+    max-width: 1366px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 4px;
+    padding: .5rem .5rem;
+    text-align: left;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12);
+    justify-content: flex-start;
+    align-items: center;
+}
+.toolbar button, .toolbar .actions-data__upload--input{
+    border: 0;
+    border: 1px solid #dddddd;
+    background-color: inherit;
+    padding: .25rem .75rem;
+    border-radius: 4px;
+    transition: all .36s ease-in-out;
+}
+.toolbar button:hover{
+    border: 1px solid #CCCCCC;
+    background-color: #FBFBFB;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12);
+}
+.toolbar__actions-left{
+    display: flex;
+}
+.toolbar__actions-left button{
+    margin-right: .25rem;
+}
+.toolbar .actions-data__upload--input{
+    margin-bottom: 0;
+    margin-right: .25rem;
+    cursor:pointer;
+}
+.toolbar .actions-data__upload--input input{
+    display: none;
+    width: 0;
+    height: 0;
+    overflow: none;
+}
+.toolbar__heading{
+    display: flex;
+    align-items: center;
+    max-width: 240px;
+    margin-right: 1rem;
+}
+.toolbar__heading img{
+    height: 56px;
+    margin-right: .5rem;
+}
+.toolbar__heading h1{
+    font-size: .875rem;
+    margin: 0;
+}
+.ip-wrapper{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: .25rem 1rem;
+    font-size: .875rem;
+    color: #757575;
+    font-style: italic;
+}
+
+.knowledge-structure__list > li > ul > li {
+    position: relative;
+}
+
+.knowledge-structure__remove-subitem-button{
+    position: absolute;
+    background-color: white;
+    border: 1px solid grey;
+    right: calc(100%);
+    width: 120px;
+    padding: .15rem .25rem;
+    display: none;
+}
+
+.knowledge-structure__list > li > ul > li:hover  .knowledge-structure__remove-subitem-button{
+    display: inline-block;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 0;
+    font-size: 10pt;
+    color: black;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+.select2-results__option[aria-selected], 
+.select2-container--default .select2-results__option[aria-disabled=true],
+.select2-container--default .select2-search--dropdown .select2-search__field,
+.select2-results__option {
+    font-size: 10pt;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field{
+    font-size: 11pt;
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{
+    color: #757575;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    color: black;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    text-overflow: unset;
+    overflow: visible;
+    white-space: unset;
+    line-height: 2;
+}
+.select2-container--default .select2-selection--single{
+    min-height: 28px;
+    height: auto;
+}
+
+.select2-selection--multiple {
+    width: 100%!important;
+    border-color: transparent!important;
+    background-color: inherit!important;
+    border-radius: 4px;
+}
+.select2-selection--multiple:focus, .select2-container--default.select2-container--focus{
+    border: 1px solid #aaa;
+    background-color: white;
+    border-radius: 4px;
+}
+.evaluable-evidence__table .select2-container, .evaluable-evidence__table .select2-container--default .select2-search--inline .select2-search__field{
+    width: 166px!important;
+}
+
+#navbarNav h2 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+.navbar-brand{
+    padding: 0;
+}
+
+.references__list{
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.references__list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+    counter-increment: item-counter;
+}
+
+.references__list li:before {
+    content: counter(item-counter, lower-alpha) ". ";
+    position: absolute;
+    left: 0;
+    font-size: 10pt;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+#evidencesTable.error > thead > tr > th:nth-child(5), #evidencesTable.error > tbody > tr > td:nth-child(5) {
+    background-color: #f7cfd2;
+}
+
+@media print {
+    .toolbar{
+        display: none;
+    }
+    .sheet__wrapper{
+        padding: 0;
+    }
+    .sheet{
+        width: 100%;
+        padding: 0 1cm;
+        border: 0;
+    }
+    .sheet__section__title,
+    .knowledges-result-criterias__table > thead > tr:nth-child(1) > th:nth-child(1),
+    .knowledges-result-criterias__table > tbody > tr:nth-child(odd),
+    .evaluable-evidence__table > tbody > tr:nth-child(odd),
+    .section__field > label.knowledge-results__result__id span{
+        print-color-adjust:exact;
+        -webkit-print-color-adjust:exact;
+    }
+    .section__field > select,
+    .section__table > tbody > tr > td > select{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+    #knowledges-result, .evaluable-evidence, .knowledge-structure__wrapper, 
+    #required-knowledge, #references{
+        padding-bottom: 0;
+    }
+    .section__field > label, .sheet__section__description, .section__field > input, 
+    .section__field > textarea, .section__field > select,  
+    .knowledge-structure__list input, .knowledge-structure__list textarea, .required-preknowledges__list textarea, 
+    .references__list textarea{
+        font-size: 15px;
+    }
+    table .section__field > textarea, .section__table > tbody > tr > td > input, 
+    .section__table > tbody > tr > td > textarea, .section__table > tbody > tr > td > select{
+        font-size: 14px;
+    }
+    .section__field > label.knowledge-results__result__id{
+        font-size: 18px;
+    }
+    .sheet__section__title > h3{
+        font-size: 20px;
+    }
+    textarea:focus, input:focus, textarea:hover, input:hover{
+        border: none;
+    }
+    textarea::placeholder, input::placeholder, .section__field > select:invalid {
+        opacity: .5;
+        font-style: italic;
+    }
+    .evaluable-evidence__table > tbody > tr > td:nth-child(5) input.marked-value{
+        color: black;
+        font-weight: normal;
+    }
+    .evaluable-evidence__table tr:hover .evaluable-evidence__remove-button, 
+    .required-preknowledges__list li:hover .required-preknowledges__remove-button, 
+    .references__list li:hover .references__remove-button,
+    .knowledge-results__result:hover .knowledge-remove-button{
+        display: none;
+    }
+    .knowledge-results__result textarea{
+        padding-bottom:0px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+        display: none;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        font-size: 15px;
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .select2-container{
+        width: 250px!important;
+    }
+    .evaluable-evidence__table .select2-container, .evaluable-evidence__table .select2-container--default .select2-search--inline .select2-search__field{
+        width: 250px!important;
+    }
+}
