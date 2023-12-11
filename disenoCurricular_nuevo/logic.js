@@ -1,7 +1,6 @@
 const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
         document.addEventListener("DOMContentLoaded", (event) => {
             const fields = document.getElementsByClassName("count-words");
-            console.log("fields", fields);
             for (let field of fields) {
                 field.addEventListener("input", (e) => handleInputEventForCountWords(e), true);
             }
@@ -92,10 +91,8 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
         }
 
         function removeKnowledgeResult(element) {
-            console.log(element.parentNode.children);
             const idxElement = Array.from(element.parentNode.children).indexOf(element);
             element.remove();
-            console.log(idxElement);
             removeCriteriaTable(idxElement + 1);
             recalculateResultsConsecutive();
             removeRowCriteriaByRA("RA" + (idxElement + 1));
@@ -278,7 +275,6 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                         closeOnSelect: false,
                         data: [...options]
                     });
-                    console.log("selectedCDS: ", selectedCDs);
                     $(this).val(selectedCDs).trigger('change');
                 });
             } else {
@@ -411,7 +407,6 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
         function recalculateEvidencesNumbers() {
             const rows = document.querySelector("#evidencesTable > tbody").children;
             for (let idx = 0; idx < rows.length; idx++) {
-                console.log(rows[idx].firstChild);
                 const input = rows[idx].firstChild.querySelector("input");
                 input.value = idx + 1;
             }
@@ -426,7 +421,6 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 const buttonAddItem = createHTMLElement("button", { type: "button", className: "knowledge-structure__remove-button", innerHTML: "Agregar subtema" });
                 buttonAddItem.addEventListener("click", () => addSubitemInItem(liNewItem));
                 actionsItems.append(buttonAddItem);
-                console.log("olStructure.children: ", olStructure.children)
                 if (olStructure.children.length > 0) {
                     const buttonRemoveItem = createHTMLElement("button", { type: "button", className: "knowledge-structure__remove-button", innerHTML: "Eliminar tema" });
                     buttonRemoveItem.addEventListener("click", () => liNewItem.remove());
@@ -540,7 +534,6 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
 
         function saveData() {
             const formulario = document.getElementById('form');
-            console.log("datos: ", formulario.elements);
             const presaber = getDataAsArray(".required-preknowledges__list textarea");
             const referencia = getDataAsArray(".references__list textarea");
             const resultadoAprendizaje = getDataAsArray(".knowledge-results__result textarea");
@@ -556,7 +549,6 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
             }
             datos["fecha"] = obtenerFechaActual();
             datos["ip"] = document.getElementById("ip").textContent;
-            console.log({ ...datos, presaber, referencia, resultadoAprendizaje, criterios, evidencias, temas });
             downloadData({ ...datos, presaber, referencia, resultadoAprendizaje, criterios, evidencias, temas });
         }
 
@@ -589,7 +581,6 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 const cantidad = evidence.querySelector("td:nth-child(1) input").value;
                 const tipo = evidence.querySelector("td:nth-child(2) select").value;
                 const descripcion = evidence.querySelector("td:nth-child(3) textarea").value;
-                console.log("selectCD getEvidence: ", Array.from($(evidence.querySelector("td:nth-child(4) select")).find(":selected")).map(item => item.value));
                 const CDEvaluados = Array.from($(evidence.querySelector("td:nth-child(4) select")).find(":selected")).map(item => item.value);
                 const peso = evidence.querySelector("td:nth-child(5) input").value;
                 return { cantidad, tipo, descripcion, CDEvaluados, peso };
@@ -842,4 +833,266 @@ const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
                 const option = createHTMLElement("option", { value: level, textContent: level });
                 selectLevel.appendChild(option);
             }
+        }
+
+
+        /* Logica para print */
+
+        function imprimir() {
+            window.jsPDF = window.jspdf.jsPDF;
+            var source = window.document.getElementById("sheet");
+            /* var doc = new jsPDF('p', 'pt', 'letter');      
+            var source = window.document.getElementById("sheet");
+            doc.setFont('Trebuchet MS');
+            doc.html(source, {
+                callback: function (doc) {
+                    //doc.save();
+                },
+                html2canvas:{
+                    width: 200,
+                    scale: 0.74,
+                    onrendered: function(canvas) {
+                        console.log(canvas);
+                        canvas.pdf.save('sample-file.pdf');
+                    }
+                },
+                autoPaging: "text",
+                margin: [30, 50, 30, 50],
+                x: 0,
+                y: 0
+            }); 
+            console.log("imprimir"); */
+        
+            window.print();
+        }
+        
+        function validarNumero(input) {
+            // Elimina cualquier carácter que no sea un dígito
+            input.value = input.value.replace(/\D/g, '');
+        
+            // Convierte el valor a un entero
+            var numero = parseInt(input.value, 10);
+        
+            // Valida si el número es un entero positivo
+            if (isNaN(numero) || numero < 0) {
+                // Si el valor no es un número entero positivo, restablece el campo de entrada
+                input.value = '';
+            }
+        
+        
+        }
+        
+        document.getElementById("creditos").addEventListener("input", function () {
+            total = document.getElementById("creditos").value * 48;
+            document.getElementById("horasT").value = total;
+            calcularProporcion(document.getElementById("proporcion"));
+        });
+        
+        function calcularProporcion(input) {
+            const valor = input.value;
+            if (valor) {
+                const partes = valor.split(':');
+                const n1 = parseInt(partes[0]);
+                const n2 = parseInt(partes[1]);
+        
+                document.getElementById("horasA").value = Math.round(document.getElementById("horasT").value / (n1 + n2) * n1);
+                document.getElementById("horasI").value = Math.round(document.getElementById("horasT").value / (n1 + n2) * n2);
+            }
+        }
+        $.getJSON('https://api.ipify.org?format=json', function (data) {
+            document.getElementById("ip").textContent = "IP: " + data.ip + " - Fecha: " + obtenerFechaActual();
+        });
+        
+        // Función para guardar los datos del formulario en un archivo JSON
+        function guardarDatos() {
+            const formulario = document.getElementById('miFormulario');
+            const datos = {};
+        
+            for (const input of formulario.elements) {
+                if (input.name) {
+                    datos[input.name] = input.value;
+                }
+            }
+            datos["fecha"] = obtenerFechaActual();
+            datos["ip"] = document.getElementById("ip").textContent;
+            datos["totalra"] = campoIndexRa;
+            datos["totalTemas"] = temaIndex;
+            datos["totalPresaber"] = presaberIndex;
+            datos["totalReferencias"] = referenciasIndex;
+            datos["temas"] = temas;
+            downloadData(datos);
+        }
+        
+        function downloadData(data) {
+            const datosJSON = JSON.stringify(data);
+            const blob = new Blob([datosJSON], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+        
+            const a = document.createElement('a');
+            a.href = url;
+            if (data["codigo"] != "") {
+                a.download = data["codigo"] + '.cum';
+            } else {
+                a.download = 'datos.cum';
+            }
+            a.click();
+        }
+        
+        function obtenerFechaActual() {
+            // Crear un objeto Date
+            const fechaActual = new Date();
+        
+            // Obtener el día, mes y año
+            const dia = fechaActual.getDate();
+            const mes = fechaActual.getMonth() + 1; // Nota: los meses en JavaScript comienzan desde 0
+            const año = fechaActual.getFullYear();
+        
+            // Formatear la fecha
+            const fechaFormateada = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
+            return fechaFormateada;
+        }
+        
+        // Función para cargar datos desde un archivo JSON
+        function cargarDatosDesdeArchivo() {
+            const archivoEntrada = document.getElementById('archivoEntrada');
+            const file = archivoEntrada.files[0];
+        
+            if (file) {
+                const reader = new FileReader();
+        
+                reader.onload = function (e) {
+                    const datos = JSON.parse(e.target.result);
+                    const elements = document.getElementById('form').elements;
+                    for (const input of elements) {
+                        if (input.name && datos[input.name]) {
+                            input.value = datos[input.name];
+                        }
+                    }
+                    $('#unidad').select2({
+                        placeholder: "< nombre de la unidad académica responsable curricularmente >"
+                    });
+                    if (nombre.value) {
+                        nombre.style.height = (nombre.scrollHeight) + 'px';
+                    }
+                    if (descripcion.value) {
+                        descripcion.style.height = (descripcion.scrollHeight) + 'px';
+                        handleInputEventForCountWords({ target: descripcion });
+                    }
+                    showKnowledgeResults(datos.resultadoAprendizaje);
+                    showCriteriaTables(datos.criterios);
+                    showEvidences(datos.evidencias);
+                    showKnowledgeStructure(datos.temas);
+                    showRequiredKnowledge(datos.presaber);
+                    showReferences(datos.referencia);
+                };
+        
+                reader.readAsText(file);
+            }
+        }
+        
+        function showKnowledgeResults(results) {
+            knowledgeResults.innerHTML = "";
+            resultCriteria.innerHTML = "";
+            for (const result of results) {
+                addKnowledgeResult();
+            }
+            const createdResults = document.getElementsByClassName("knowledge-results__result");
+            for (let idx = 0; idx < createdResults.length; idx++) {
+                const textarea = createdResults[idx].querySelector("textarea");
+                textarea.value = results[idx];
+                textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+            }
+        
+        }
+        
+        function showCriteriaTables(criterios) {
+            const tables = document.getElementsByClassName("knowledges-result-criterias__table");
+            for (const criterio of criterios) {
+                const table = document.getElementById("table" + criterio.ra);
+                if (table) {
+                    const textareas = table.querySelectorAll("tbody > tr > td textarea");
+                    for (let idx = 0; idx < textareas.length; idx++) {
+                        textareas[idx].value = criterio.value[idx];
+                        textareas[idx].style.height = (textareas[idx].scrollHeight + 4) + 'px';
+                    }
+                }
+            }
+        }
+        
+        function showEvidences(evidencias) {
+            if (evidencias && evidencias.length > 0) {
+                const tbody = evidencesTable.querySelector("tbody");
+                tbody.innerHTML = "";
+                for (const evidencia of evidencias) {
+                    addNewEvidence(evidencia);
+                    $(tbody.querySelector("tr:last-child > td:nth-child(4) select")).val(evidencia.CDEvaluados);
+                    $(tbody.querySelector("tr:last-child > td:nth-child(4) select")).trigger('change');
+        
+                }
+                const textareas = tbody.querySelectorAll("tr > td textarea");
+                for (const textarea of textareas) {
+                    textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                }
+                /* const select2textarea = tobyd.querySelectorAll("tr > td:nth-child(4) textarea");
+                for(const select2 of select2textarea){
+                    $(select2).val(selectedCDs).trigger('change');
+                } */
+            }
+        
+        }
+        
+        function showKnowledgeStructure(temas) {
+            if (temas && temas.length > 0) {
+                const list = document.getElementsByClassName("knowledge-structure__list")[0];
+                if (list) {
+                    list.innerHTML = "";
+                    for (const tema of temas) {
+                        addItemInKnowledgeStructure(tema.item);
+                        for (const subtema of tema.subitems) {
+                            const lastLi = document.querySelector(".knowledge-structure__list > li:last-child");
+                            addSubitemInItem(lastLi, subtema);
+                        }
+                    }
+                    const textareas = list.querySelectorAll("textarea");
+                    for (const textarea of textareas) {
+                        textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                    }
+                }
+            }
+        
+        }
+        
+        function showRequiredKnowledge(presaberes) {
+            if (presaberes && presaberes.length > 0) {
+                const list = document.getElementsByClassName("required-preknowledges__list")[0];
+                if (list) {
+                    list.innerHTML = "";
+                    for (const presaber of presaberes) {
+                        addRequiredKnowledge(presaber);
+        
+                    }
+                    const textareas = list.querySelectorAll("textarea");
+                    for (const textarea of textareas) {
+                        textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                    }
+                }
+            }
+        
+        }
+        function showReferences(referencias) {
+            if (referencias && referencias.length > 0) {
+                const list = document.getElementsByClassName("references__list")[0];
+                if (list) {
+                    list.innerHTML = "";
+                    for (const referencia of referencias) {
+                        addReference(referencia);
+        
+                    }
+                    const textareas = list.querySelectorAll("textarea");
+                    for (const textarea of textareas) {
+                        textarea.style.height = (textarea.scrollHeight + 4) + 'px';
+                    }
+                }
+            }
+        
         }
