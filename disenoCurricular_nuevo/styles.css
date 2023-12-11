@@ -3,8 +3,8 @@
 }
 #miFormularioPrintd{
     font-size: 0.75rem;
+    word-wrap: break-word; /* Permite dividir palabras para ajustarse al ancho del contenedor */
 }
-
 #miFormularioPrintd h2{
     font-size: 1.25rem;
 }
@@ -31,10 +31,6 @@
 table tbody tr{
     display: none;
 }
-#miFormularioPrintd {
-    word-wrap: break-word; /* Permite dividir palabras para ajustarse al ancho del contenedor */
-}
-
 .sheet__wrapper{
     background-color: #FBFBFB;
     padding: 1.5cm 0;
