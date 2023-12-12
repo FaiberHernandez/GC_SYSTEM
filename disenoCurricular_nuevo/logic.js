@@ -423,7 +423,7 @@
                 const placeholder = "<Tema>";
                 const liNewItem = createItemInKnowledgeStructure(placeholder, "temas", value);
                 const actionsItems = createHTMLElement("div", {className: "knowledge-structure__actions"});
-                const buttonAddItem = createHTMLElement("button", {type: "button", className: "knowledge-structure__remove-button", innerHTML: "Agregar subtema"});
+                const buttonAddItem = createHTMLElement("button", {type: "button", className: "knowledge-structure__add-button", innerHTML: "Agregar subtema"});
                 buttonAddItem.addEventListener("click", () => addSubitemInItem(liNewItem));
                 actionsItems.append(buttonAddItem);
                 console.log("olStructure.children: ", olStructure.children)

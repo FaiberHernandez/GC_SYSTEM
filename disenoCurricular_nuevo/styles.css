@@ -373,24 +373,32 @@
     position: relative;
 }
 .knowledge-structure__actions{
+    display: none;
     position: absolute;
     left: 100%;
     background: #fbfbfb;
     text-transform: uppercase;
-    border: 1px solid #CCCCCC;
     min-width: 130px;
     z-index: 10;
-    display: none;
 }
 .knowledge-structure__actions button{
-    border: 0;
     background-color: inherit;
     font-size: 10pt;
+    border: 1px solid #CCCCCC;
     padding: 4px 12px;
     text-align: left;
     width: 100%;
 }
-.knowledge-structure__list > li:hover{
+
+.knowledge-structure__actions .knowledge-structure__remove-button{
+    border: 0;
+    background: #bb2d3b;
+    color: white;
+    font-weight: bold;
+    margin-top: 1px;
+}
+
+.knowledge-structure__list > li textarea[name="temas"]:hover{
     background-color: #eeeeee;
 }
 .knowledge-structure__list > li:hover .knowledge-structure__actions{
@@ -476,12 +484,14 @@
 
 .knowledge-structure__remove-subitem-button{
     position: absolute;
-    background-color: white;
-    border: 1px solid grey;
+    background: #bb2d3b;
+    color: white;
     right: calc(100%);
     width: 120px;
     padding: .15rem .25rem;
     display: none;
+    font-weight: bold;
+    border: 0;
 }
 
 .knowledge-structure__list > li > ul > li:hover  .knowledge-structure__remove-subitem-button{
