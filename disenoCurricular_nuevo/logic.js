@@ -248,11 +248,14 @@ function addNewEvidence(value = undefined) {
 function customResultTemplate(data, container) {
     console.log(data.element)
     if(data.element){
+        console.log(container);
         $(container).attr("data-toggle", "popover");
         $(container).attr("title", data.text);
         $(container).attr("data-content", "Contenido de descriptor");
         $(container).popover({
-            trigger: "focus"
+            trigger: "hover",
+            container: "body",
+            boundary: 'window'
         });
     }
 
