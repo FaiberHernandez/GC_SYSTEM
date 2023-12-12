@@ -1,3 +1,33 @@
+#miFormularioPrintd .form-group {
+    margin-bottom: 0rem;
+}
+#miFormularioPrintd{
+    font-size: 0.75rem;
+    word-wrap: break-word; /* Permite dividir palabras para ajustarse al ancho del contenedor */
+}
+#miFormularioPrintd h2{
+    font-size: 1.25rem;
+}
+#miFormularioPrintd h3{
+    font-size: 1rem;
+    background: black;
+    color: white;
+}
+#miFormularioPrintd h5{
+    font-size: 0.85rem;
+}
+#miFormularioPrintd h4{
+    font-size: 0.85rem;
+}
+#miFormularioPrintd label{
+    color: #2f7ac2;
+}
+#miFormularioPrintd .encabezado{
+        background-color: #f5f5f5; /* Fondo de color gris oscuro */
+        padding: 10px; /*  interior para el contenido */
+        font-weight: bold; /* Texto en negrita */
+        border-bottom: 2px solid #091883; /* Línea de separación en la parte inferior */
+}
 .sheet__wrapper{
     background-color: #FBFBFB;
     padding: 1.5cm 0;
@@ -19,6 +49,7 @@
 .sheet__content__header__img{
     display: inline-block;
     width: 1.7cm;
+    margin: 10px 15px 20px 0px;
 }
 .sheet__content__header__img > img{
     height: 1.8cm;
@@ -342,25 +373,32 @@
     position: relative;
 }
 .knowledge-structure__actions{
+    display: none;
     position: absolute;
     left: 100%;
-    border: 0;
     background: #fbfbfb;
     text-transform: uppercase;
-    border: 1px solid #CCCCCC;
     min-width: 130px;
     z-index: 10;
-    display: none;
 }
 .knowledge-structure__actions button{
-    border: 0;
     background-color: inherit;
     font-size: 10pt;
+    border: 1px solid #CCCCCC;
     padding: 4px 12px;
     text-align: left;
     width: 100%;
 }
-.knowledge-structure__list > li:hover{
+
+.knowledge-structure__actions .knowledge-structure__remove-button{
+    border: 0;
+    background: #bb2d3b;
+    color: white;
+    font-weight: bold;
+    margin-top: 1px;
+}
+
+.knowledge-structure__list > li textarea[name="temas"]:hover{
     background-color: #eeeeee;
 }
 .knowledge-structure__list > li:hover .knowledge-structure__actions{
@@ -446,12 +484,14 @@
 
 .knowledge-structure__remove-subitem-button{
     position: absolute;
-    background-color: white;
-    border: 1px solid grey;
+    background: #bb2d3b;
+    color: white;
     right: calc(100%);
     width: 120px;
     padding: .15rem .25rem;
     display: none;
+    font-weight: bold;
+    border: 0;
 }
 
 .knowledge-structure__list > li > ul > li:hover  .knowledge-structure__remove-subitem-button{
@@ -463,6 +503,8 @@
     font-size: 10pt;
     color: black;
     font-family: 'Trebuchet MS', sans-serif;
+    min-height: 28px;
+    height: auto;
 }
 .select2-results__option[aria-selected], 
 .select2-container--default .select2-results__option[aria-disabled=true],
@@ -485,10 +527,6 @@
     overflow: visible;
     white-space: unset;
     line-height: 2;
-}
-.select2-container--default .select2-selection--single{
-    min-height: 28px;
-    height: auto;
 }
 
 .select2-selection--multiple {

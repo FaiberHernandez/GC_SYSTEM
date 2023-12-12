@@ -7,7 +7,6 @@
     <title>Formato de Diseño Curricular del curso 2023-2</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <link rel="icon" href="https://cdn.unimagdalena.edu.co/images/escudo/bg_light/72.png">
     <!-- Agrega el enlace a Bootstrap CSS -->
@@ -18,64 +17,14 @@
 
     <!-- Agrega el enlace a Font Awesome (iconos) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <style>
-        #miFormularioPrintd .form-group {
-            margin-bottom: 0rem;
-        }
-
-        #miFormularioPrintd {
-            font-size: 0.75rem;
-        }
-
-        #miFormularioPrintd h2 {
-            font-size: 1.25rem;
-        }
-
-        #miFormularioPrintd h3 {
-            font-size: 1rem;
-            background: black;
-            color: white;
-        }
-
-        #miFormularioPrintd h5 {
-            font-size: 0.85rem;
-        }
-
-        #miFormularioPrintd h4 {
-            font-size: 0.85rem;
-        }
-
-        #miFormularioPrintd label {
-            color: #2f7ac2;
-        }
-
-        #miFormularioPrintd .encabezado {
-
-            background-color: #f5f5f5;
-            /* Fondo de color gris oscuro */
-
-            padding: 10px;
-            /*  interior para el contenido */
-
-            font-weight: bold;
-            /* Texto en negrita */
-
-            border-bottom: 2px solid #091883;
-            /* Línea de separación en la parte inferior */
-
-        }
-
-        #miFormularioPrintd {
-            word-wrap: break-word;
-            /* Permite dividir palabras para ajustarse al ancho del contenedor */
-        }
-    </style>
-    <link rel="stylesheet" href="style2.css">
-
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <!-- Ventana modal -->
+    <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-danger text-white" style="position: absolute;
     <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content bg-danger text-white" style="position: absolute;
@@ -1432,7 +1381,7 @@
 
         }
 
-        function showCriteriaTables(criterios) {
+        function |showCriteriaTables(criterios) {
             for (const criterio of criterios) {
                 const raRow = document.getElementById("tr" + criterio.ra);
                 if (raRow) {
