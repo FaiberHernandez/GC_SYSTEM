@@ -398,6 +398,13 @@
     margin-top: 1px;
 }
 
+.knowledge-structure__actions .knowledge-structure__add-button{
+    border: 0;
+    background: #2F5496;
+    color: white;
+    font-weight: bold;
+}
+
 .knowledge-structure__list > li textarea[name="temas"]:hover{
     background-color: #eeeeee;
 }
