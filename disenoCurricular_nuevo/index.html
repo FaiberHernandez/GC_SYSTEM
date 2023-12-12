@@ -982,10 +982,10 @@
             return presaberes ? Array.from(presaberes).map(presaber => presaber.value) : [];
         }
         function getCriterias() {
-            const tables = document.getElementsByClassName("knowledges-result-criterias__table");
-            const result = Array.from(tables).map(table => {
-                const ra = table.querySelector("thead > tr:nth-child(1) > th:nth-child(1)").textContent;
-                const value = Array.from(table.querySelectorAll("tbody > tr textarea")).map(text => text.value);
+            const criteriaTables = document.querySelectorAll("#matriz_table > tbody tr");
+            const result = Array.from(criteriaTables).map(row => {
+                const ra = row.querySelector("td:nth-child(1)").textContent;
+                const value = Array.from(row.querySelectorAll("tr textarea")).map(text => text.value);
                 return { ra, value };
             })
             return result;
@@ -1433,13 +1433,10 @@
         }
 
         function showCriteriaTables(criterios) {
-            const table = document.querySelector("#matriz_table > tbody") ?? document.createElement("tbody");
-            const tables = document.getElementsByClassName("knowledges-result-criterias__table");
-            console.log(table);
             for (const criterio of criterios) {
-                const table = document.getElementById("table" + criterio.ra);
-                if (table) {
-                    const textareas = table.querySelectorAll("tbody > tr > td textarea");
+                const raRow = document.getElementById("tr" + criterio.ra);
+                if (raRow) {
+                    const textareas = raRow.querySelectorAll("td textarea");
                     for (let idx = 0; idx < textareas.length; idx++) {
                         textareas[idx].value = criterio.value[idx];
                         textareas[idx].style.height = (textareas[idx].scrollHeight + 4) + 'px';
