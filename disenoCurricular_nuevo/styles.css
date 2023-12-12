@@ -408,7 +408,8 @@
 .knowledge-structure__list > li textarea[name="temas"]:hover{
     background-color: #eeeeee;
 }
-.knowledge-structure__list > li:hover .knowledge-structure__actions{
+
+.knowledge-structure__list textarea[name="temas"]:hover ~ .knowledge-structure__actions{
     display: inline-block;
 }
 .toolbar-wrapper{
@@ -501,8 +502,12 @@
     border: 0;
 }
 
-.knowledge-structure__list > li > ul > li:hover  .knowledge-structure__remove-subitem-button{
+.knowledge-structure__list > li > ul > li:hover .knowledge-structure__remove-subitem-button{
     display: inline-block;
+}
+
+.knowledge-structure__list > li > ul > li:hover{
+    background-color: #eeeeee;
 }
 
 .select2-container--default .select2-selection--single {
@@ -513,6 +518,7 @@
     min-height: 28px;
     height: auto;
 }
+
 .select2-results__option[aria-selected], 
 .select2-container--default .select2-results__option[aria-disabled=true],
 .select2-container--default .select2-search--dropdown .select2-search__field,
