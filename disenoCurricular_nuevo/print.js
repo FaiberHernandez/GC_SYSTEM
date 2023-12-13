@@ -1,10 +1,5 @@
 function imprimir() {
     window.jsPDF = window.jspdf.jsPDF;
-    if(document.querySelector("sheet--horizontal")){
-        
-    }else{
-        
-    }
     window.print();
 }
 

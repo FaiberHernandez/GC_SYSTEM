@@ -600,7 +600,7 @@
 
 @media print {
     @page {
-        size: portrait;
+        size: auto;
     }
     .toolbar{
         display: none;
