@@ -85,6 +85,9 @@
     color: white;
     margin-bottom: .5cm;
 }
+.sheet__section__title h3 span{
+    margin-left: 10px;
+}
 .sheet__section__title__number{
     display: inline-block;
     margin-right: .5cm;
@@ -405,11 +408,11 @@
     font-weight: bold;
 }
 
-.knowledge-structure__list > li textarea[name="temas"]:hover{
+.knowledge-structure__list > li .knowledge-structure__buttons-and-textarea:hover{
     background-color: #eeeeee;
 }
 
-.knowledge-structure__list textarea[name="temas"]:hover ~ .knowledge-structure__actions{
+.knowledge-structure__list > li .knowledge-structure__buttons-and-textarea:hover .knowledge-structure__actions{
     display: inline-block;
 }
 .toolbar-wrapper{
