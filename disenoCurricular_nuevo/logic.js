@@ -1,4 +1,4 @@
-const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
+const levels = ["Satisfactorio", "Destacado", "Excepcional"];
 document.addEventListener("DOMContentLoaded", (event) => {
     const fields = document.getElementsByClassName("count-words");
     console.log("fields", fields);
