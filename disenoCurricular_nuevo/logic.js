@@ -1,6 +1,7 @@
 const levels = ["Satisfactorio", "Destacado", "Excepcional"];
 document.addEventListener("DOMContentLoaded", (event) => {
     const fields = document.getElementsByClassName("count-words");
+    const description = document.getElementById("descripcion");
     console.log("fields", fields);
     for (let field of fields) {
         field.addEventListener("input", (e) => handleInputEventForCountWords(e), true);
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     createTableCriteriaByRA();
     addKnowledgeResult();
     addNewEvidence();
-    addTextareaEventListener(nombre);
+    addTextareaEventListener(description);
     addItemInKnowledgeStructure();
     const olStructure = document.getElementsByClassName("knowledge-structure__list")[0];
     if (olStructure) addSubitemInItem(olStructure.children[0]);

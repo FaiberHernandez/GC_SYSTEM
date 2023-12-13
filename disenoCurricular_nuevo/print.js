@@ -239,4 +239,8 @@ function showReferences(referencias) {
 
 function rotatePage() {
     $(".sheet").toggleClass("sheet--horizontal");
+    const textareas = document.getElementsByTagName('textarea');
+    for (let field of textareas) {
+        field.dispatchEvent(new Event('change'));
+    }
 }
