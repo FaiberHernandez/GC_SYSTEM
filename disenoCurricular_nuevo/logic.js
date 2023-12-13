@@ -432,7 +432,7 @@ function addEvidenceRow(value = undefined) {
         "Video"
     ];
     const tdEvidenceTypes = document.createElement("td");
-    const selectEvidences = createHTMLElement("select", { required: true });
+    const selectEvidences = createHTMLElement("select", { required: true, className: inputEvidenceCount.value % 2 === 0 ? "section__field--border-white": "section__field--border-gray" });
     const defaultOption = createHTMLElement("option", { disabled: true, selected: true, value: "", innerHTML: "Seleccione" });
     selectEvidences.appendChild(defaultOption);
     for (const type of evidenceTypes) {

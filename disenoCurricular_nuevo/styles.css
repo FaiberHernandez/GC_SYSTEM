@@ -131,6 +131,13 @@
     font-family: 'Trebuchet MS', sans-serif;
     border: 1px solid transparent;
 }
+.section__field--border-white {
+    border-color: white !important;
+}
+.section__field--border-gray {
+    border-color: #EEEEEE !important;
+}
+
 .section__table > tbody > tr > td > input, .section__table > tbody > tr > td > select{
     background-color: inherit;
 }
@@ -149,8 +156,8 @@
 .section__field > input:hover:not(:disabled), .section__field > textarea:hover, .section__field > select:hover,
 .required-preknowledges__list textarea:hover,
 .references__list textarea:hover{
-    background-color: #FBFBFB;
-    border-color: #dddddd;
+    background-color: #FBFBFB !important;
+    border-color: #dddddd !important;
 }
 .section__field > input:focus, .section__field > textarea:focus, .section__field > select:focus{
     border-color: #CCCCCC;
