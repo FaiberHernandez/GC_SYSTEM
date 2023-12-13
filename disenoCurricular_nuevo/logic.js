@@ -1,7 +1,3 @@
-$(function () {
-    $('[data-toggle="popover"]').popover();
-})
-
 const levels = ["Básico", "Intermedio", "Avanzado", "Excepcional"];
 document.addEventListener("DOMContentLoaded", (event) => {
     const fields = document.getElementsByClassName("count-words");
@@ -246,9 +242,7 @@ function addNewEvidence(value = undefined) {
 }
 
 function customResultTemplate(data, container) {
-    console.log(data.element)
     if(data.element){
-        console.log(container);
         $(container).attr("data-toggle", "popover");
         $(container).attr("title", data.text);
         $(container).attr("data-content", "Contenido de descriptor");
@@ -256,6 +250,12 @@ function customResultTemplate(data, container) {
             trigger: "hover",
             container: "body",
             boundary: 'window'
+        });
+
+        $(container).hover(function () {
+            
+        }, function () {
+            $('[data-toggle="popover"]').popover('hide');
         });
     }
 
@@ -323,7 +323,6 @@ function setCDsToChoose(update = false, deletedRa = null) {
             templateResult: customResultTemplate
         });
     }
-
 }
 
 function addEvidenceRow(value = undefined) {
