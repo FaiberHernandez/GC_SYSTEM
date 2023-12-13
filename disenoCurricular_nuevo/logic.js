@@ -450,6 +450,7 @@ function addItemInKnowledgeStructure(value = "") {
     const olStructure = document.getElementsByClassName("knowledge-structure__list")[0];
     if (olStructure) {
         const placeholder = "<Tema>";
+        const actionsAndTextarea = createHTMLElement("div", { className: "knowledge-structure__buttons-and-textarea" });
         const liNewItem = createItemInKnowledgeStructure(placeholder, "temas", value);
         const actionsItems = createHTMLElement("div", { className: "knowledge-structure__actions" });
         const buttonAddItem = createHTMLElement("button", { type: "button", className: "knowledge-structure__add-button", innerHTML: "Agregar subtema" });
@@ -461,7 +462,10 @@ function addItemInKnowledgeStructure(value = "") {
             buttonRemoveItem.addEventListener("click", () => liNewItem.remove());
             actionsItems.append(buttonRemoveItem);
         }
-        liNewItem.appendChild(actionsItems);
+        const textarea = liNewItem.querySelector("textarea");
+        liNewItem.removeChild(textarea);
+        actionsAndTextarea.append(textarea, actionsItems);
+        liNewItem.appendChild(actionsAndTextarea);
         olStructure.appendChild(liNewItem);
     }
 }
