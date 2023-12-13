@@ -242,24 +242,83 @@ function addNewEvidence(value = undefined) {
 }
 
 function customResultTemplate(data, container) {
-    if(data.element){
-        $(container).attr("data-toggle", "popover");
-        $(container).attr("title", data.text);
-        $(container).attr("data-content", "Contenido de descriptor");
-        $(container).popover({
-            trigger: "hover",
-            container: "body",
-            boundary: 'window'
-        });
-
+    if (data.element) {
         $(container).hover(function () {
-            
+            $(".selectCDs-select").popover('hide');
+            const target = document.querySelector(".selectCDs-select + span.select2-container--open");
+            let popTarget = null;
+            if(target){
+                popTarget = target.parentNode.children[0];
+            }
+            if(popTarget){
+                getRaDescription(data.text);
+                $(popTarget).popover('dispose');
+                $(popTarget).attr("data-toggle", "popover");
+                $(popTarget).attr("title", data.text);
+                $(popTarget).attr("data-content", getRaDescription(data.text));
+                $(popTarget).popover({
+                    trigger: "click",
+                    container: "body",
+                    boundary: 'window',
+                    placement: "left"
+                });
+                $(popTarget).popover('show');
+            }
         }, function () {
-            $('[data-toggle="popover"]').popover('hide');
-        });
+            // out
+        }
+        );
     }
 
     return data.text;
+}
+
+function addCDsPopOver(target) {
+    $(target).attr("data-toggle", "popover");
+    $(target).attr("title", "text");
+    $(target).attr("data-content", "Contenido de descriptor");
+    $(target).popover({
+        trigger: "click",
+        container: "body",
+        boundary: 'window',
+        placement: "left"
+    });
+
+    $(target).on("select2:open", function() {
+        $(target).popover("show");
+    });
+    $(target).on("select2:close", function() {
+        $(target).popover("hide");
+    });
+}
+
+function getRaDescription(raId) {
+    const raToSearch = raId.split("-")[0];
+    const levelToSarch = raId.split("-")[1];
+    const table = document.getElementById("matriz_table");
+    const CDsList = Array.from(table.querySelectorAll("thead > tr > th:not(:first-child)")).map(cd => cd.textContent);
+    const raList = Array.from(table.querySelectorAll("tbody > tr > td:nth-child(1)")).map(cd => cd.textContent);
+    const cdsDataOptions = [];
+    for (const ra of raList) {
+        const descriptionRow = Array.from(table.querySelectorAll("#tr"+ra+" textarea")).map(descrip => descrip.value);
+        cdsDataOptions.push({
+            ra: ra,
+            CDs: CDsList,
+            descriptions: descriptionRow
+        });
+    }
+    let targetRa = cdsDataOptions.find(option => option.ra === raToSearch);
+    if(targetRa) {
+        let indexOfCDs = targetRa.CDs.indexOf(levelToSarch);
+        let description = targetRa.descriptions[indexOfCDs] || "Sin descripción";
+        if(description.length > 500) {
+            description = description.slice(0, 500);
+            description += "...";
+        }
+        return description;
+    }
+
+    return "";
 }
 
 function setCDsToChoose(update = false, deletedRa = null) {
@@ -310,6 +369,7 @@ function setCDsToChoose(update = false, deletedRa = null) {
             });
             console.log("selectedCDS: ", selectedCDs);
             $(this).val(selectedCDs).trigger('change');
+            addCDsPopOver(this);
         });
     } else {
         $('.selectCDs-select').select2({
@@ -322,6 +382,7 @@ function setCDsToChoose(update = false, deletedRa = null) {
             },
             templateResult: customResultTemplate
         });
+        addCDsPopOver('.selectCDs-select');
     }
 }
 
