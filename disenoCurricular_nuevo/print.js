@@ -1,28 +1,10 @@
 function imprimir() {
     window.jsPDF = window.jspdf.jsPDF;
-    var source = window.document.getElementById("sheet");
-    /* var doc = new jsPDF('p', 'pt', 'letter');      
-    var source = window.document.getElementById("sheet");
-    doc.setFont('Trebuchet MS');
-    doc.html(source, {
-        callback: function (doc) {
-            //doc.save();
-        },
-        html2canvas:{
-            width: 200,
-            scale: 0.74,
-            onrendered: function(canvas) {
-                console.log(canvas);
-                canvas.pdf.save('sample-file.pdf');
-            }
-        },
-        autoPaging: "text",
-        margin: [30, 50, 30, 50],
-        x: 0,
-        y: 0
-    }); 
-    console.log("imprimir"); */
-
+    if(document.querySelector("sheet--horizontal")){
+        
+    }else{
+        
+    }
     window.print();
 }
 
@@ -258,4 +240,8 @@ function showReferences(referencias) {
         }
     }
 
+}
+
+function rotatePage() {
+    $(".sheet").toggleClass("sheet--horizontal");
 }

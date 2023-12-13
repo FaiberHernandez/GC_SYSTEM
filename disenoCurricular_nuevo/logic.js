@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
     loadPrograms();
     $('#unidad').select2({
-        placeholder: "< nombre de la unidad académica responsable curricularmente >"
+        placeholder: "< nombre de la unidad académica responsable curricularmente >",
+        width: 'resolve'
     });
     loadEducationalLevel();
     createTableCriteriaByRA();

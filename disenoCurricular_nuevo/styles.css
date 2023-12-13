@@ -102,7 +102,7 @@
 .section__field{
     margin-bottom: .1cm;
     display: flex;
-    align-items: center;
+    align-items: baseline;
 }
 .section__field.section__field--wrap{
     flex-wrap: wrap;
@@ -594,7 +594,14 @@
     background-color: #f7cfd2;
 }
 
+.sheet--horizontal {
+    width: 29.7cm !important;
+}
+
 @media print {
+    @page {
+        size: portrait;
+    }
     .toolbar{
         display: none;
     }
@@ -605,6 +612,12 @@
         width: 100%;
         padding: 0 1cm;
         border: 0;
+    }
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        text-overflow: unset;
+        overflow: visible;
+        white-space: nowrap;
+        line-height: 2;
     }
     .sheet__section__title,
     .knowledges-result-criterias__table > thead > tr:nth-child(1) > th:nth-child(1),
