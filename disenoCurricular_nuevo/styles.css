@@ -125,7 +125,7 @@
 .knowledge-structure__list input, .knowledge-structure__list textarea,
 .required-preknowledges__list textarea,
 .references__list textarea,
-#matriz_table > tbody > tr > td textarea{
+#matriz_table > tbody > tr > td textarea, #matriz_table_selector > tbody > tr > td textarea{
     width: 100%;
     font-size: 10pt;
     font-family: 'Trebuchet MS', sans-serif;
@@ -148,7 +148,7 @@
 .knowledge-structure__list textarea,
 .required-preknowledges__list textarea,
 .references__list textarea,
-#matriz_table > tbody > tr > td textarea{
+#matriz_table > tbody > tr > td textarea, #matriz_table_selector > tbody > tr > td textarea{
     resize: none;
     background-color: inherit;
     overflow: hidden;
@@ -275,7 +275,7 @@
     position: absolute;
     width: 1px;
 }
-.knowledges-result-criterias__table, .evaluable-evidence__table, #matriz_table{
+.knowledges-result-criterias__table, .evaluable-evidence__table, #matriz_table, #matriz_table_selector{
     font-size: 10pt;
     font-family: 'Trebuchet MS', sans-serif;
     width: 100%;
@@ -290,16 +290,16 @@
 }
 .knowledges-result-criterias__table > thead > tr > th, .knowledges-result-criterias__table > tbody > tr > td,
 .evaluable-evidence__table > thead > tr > th, .evaluable-evidence__table > tbody > tr > td,
-#matriz_table > thead > tr > th, #matriz_table > tbody > tr > td{
+#matriz_table > thead > tr > th, #matriz_table_selector > thead > tr > th, #matriz_table > tbody > tr > td, #matriz_table_selector > tbody > tr > td {
     padding: .05cm .19cm;
     border: .5px solid black;
 }
-#matriz_table > tbody > tr > td{
+#matriz_table > tbody > tr > td, #matriz_table_selector > tbody > tr > td{
     padding: .05cm .1cm;
     font-size: 9pt;
     vertical-align: top;
 }
-#matriz_table > tbody > tr > td textarea{
+#matriz_table > tbody > tr > td textarea, #matriz_table_selector > tbody > tr > td textarea{
     width: 100%;
     font-size: 9pt;
 }
@@ -603,6 +603,11 @@
 
 .sheet--horizontal {
     width: 29.7cm !important;
+}
+
+.table__selector--selected {
+    background-color: #b2dcff !important;
+    cursor: url(del-cursor-2.png), default !important;
 }
 
 @media print {

@@ -243,87 +243,40 @@ function addNewEvidence(value = undefined) {
     }
 }
 
-function customResultTemplate(data, container) {
-    if (data.element) {
-        $(container).hover(function () {
-            $(".selectCDs-select").popover('hide');
-            const target = document.querySelector(".selectCDs-select + span.select2-container--open");
-            let popTarget = null;
-            if(target){
-                popTarget = target.parentNode.children[0];
-            }
-            if(popTarget){
-                getRaDescription(data.text);
-                $(popTarget).popover('dispose');
-                $(popTarget).attr("data-toggle", "popover");
-                $(popTarget).attr("title", data.text);
-                $(popTarget).attr("data-content", getRaDescription(data.text));
-                $(popTarget).popover({
-                    trigger: "click",
-                    container: "body",
-                    boundary: 'window',
-                    placement: "left"
-                });
-                $(popTarget).popover('show');
-            }
-        }, function () {
-            // out
+function handleSelector(e) { 
+    e.preventDefault();
+    $('#matricialSelector > .modal-dialog > .modal-content  .modal-body').empty();
+    $('#matricialSelector').modal();
+    const raTable = document.getElementById("matriz_table").cloneNode(true);
+    $(raTable).attr("id", "matriz_table_selector");
+    const textareasInMatriz = raTable.querySelectorAll("textarea");
+    const selectedCDs = Array.from($(this).find(":selected")).map(item => item.value);
+    console.log("selectedCDs:\n",selectedCDs);
+    let cdIter = 0;
+    for(let textarea of textareasInMatriz) {
+        $(textarea).attr("readonly", true);
+        textarea.style.cssText = "cursor: cell;"
+        const tdContainer = textarea.parentNode;
+        const trContainer = tdContainer.parentNode;
+        const ra = trContainer.querySelector("td:nth-child(1)").textContent;
+        const selectorId = ra+"-"+levels[cdIter];
+        $(tdContainer).attr('data-SelectorId', selectorId);
+        if(selectedCDs.includes(selectorId)) {
+            $(textarea).addClass("table__selector--selected");
+            $(tdContainer).addClass("table__selector--selected");
         }
-        );
-    }
 
-    return data.text;
-}
-
-function addCDsPopOver(target) {
-    $(target).attr("data-toggle", "popover");
-    $(target).attr("title", "text");
-    $(target).attr("data-content", "Contenido de descriptor");
-    $(target).popover({
-        trigger: "click",
-        container: "body",
-        boundary: 'window',
-        placement: "left"
-    });
-
-    $(target).on("select2:open", function() {
-        $(target).popover("show");
-    });
-    $(target).on("select2:close", function() {
-        $(target).popover("hide");
-    });
-}
-
-function getRaDescription(raId) {
-    const raToSearch = raId.split("-")[0];
-    const levelToSarch = raId.split("-")[1];
-    const table = document.getElementById("matriz_table");
-    const CDsList = Array.from(table.querySelectorAll("thead > tr > th:not(:first-child)")).map(cd => cd.textContent);
-    const raList = Array.from(table.querySelectorAll("tbody > tr > td:nth-child(1)")).map(cd => cd.textContent);
-    const cdsDataOptions = [];
-    for (const ra of raList) {
-        const descriptionRow = Array.from(table.querySelectorAll("#tr"+ra+" textarea")).map(descrip => descrip.value);
-        cdsDataOptions.push({
-            ra: ra,
-            CDs: CDsList,
-            descriptions: descriptionRow
-        });
-    }
-    let targetRa = cdsDataOptions.find(option => option.ra === raToSearch);
-    if(targetRa) {
-        let indexOfCDs = targetRa.CDs.indexOf(levelToSarch);
-        let description = targetRa.descriptions[indexOfCDs] || "Sin descripción";
-        if(description.length > 500) {
-            description = description.slice(0, 500);
-            description += "...";
+        if(cdIter < levels.length - 1) {
+            cdIter++;
+        }else{
+            cdIter = 0;
         }
-        return description;
     }
+    $('#matricialSelector > .modal-dialog > .modal-content  .modal-body ').append(raTable);
 
-    return "";
 }
 
-function setCDsToChoose(update = false, deletedRa = null) {
+function getSelectorOptions() {
     const data = [];
     const table = document.getElementById("matriz_table");
     const CDsList = Array.from(table.querySelectorAll("thead > tr > th:not(:first-child)")).map(cd => cd.textContent);
@@ -343,13 +296,19 @@ function setCDsToChoose(update = false, deletedRa = null) {
                 text: d.ra + "-" + cd
             });
         }
-    })
+    });
+    return options;
+}
+
+function setCDsToChoose(update = false, deletedRa = null) {
+    const options = getSelectorOptions();
     /* console.log(options);
     const selectedCDs = Array.from(document.getElementsByClassName("selectCDs"))
     .map(select => {
         return Array.from(select.querySelectorAll("option")).map(option => option.value);
     }); */
 
+    $('.selectCDs-select').off( "select2:opening", handleSelector);
     if (update) {
         /* $('.selectCDs').select2().empty().trigger('change');
         $('.selectCDs').select2('destroy').trigger('change'); */
@@ -366,12 +325,11 @@ function setCDsToChoose(update = false, deletedRa = null) {
                 data: [...options],
                 language: {
                     noResults: function () { return "No se encontraron descriptores"; }
-                },
-                templateResult: customResultTemplate
+                }
             });
             console.log("selectedCDS: ", selectedCDs);
             $(this).val(selectedCDs).trigger('change');
-            addCDsPopOver(this);
+            $(this).on("select2:opening", handleSelector);
         });
     } else {
         $('.selectCDs-select').select2({
@@ -381,10 +339,9 @@ function setCDsToChoose(update = false, deletedRa = null) {
             data: [...options],
             language: {
                 noResults: function () { return "No se encontraron descriptores"; }
-            },
-            templateResult: customResultTemplate
+            }
         });
-        addCDsPopOver('.selectCDs-select');
+        $('.selectCDs-select').on("select2:opening", handleSelector);
     }
 }
 
@@ -572,7 +529,8 @@ function addTextareaEventListener(text) {
         };
     }
 
-    function resize() {
+    function resize(e) {
+        console.log("resize")
         text.style.height = 'auto';
         if (text.scrollHeight) text.style.height = (text.scrollHeight + 4) + 'px';
     }

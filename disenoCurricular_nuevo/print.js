@@ -147,7 +147,8 @@ function showKnowledgeResults(results) {
 
 function showCriteriaTables(criterios) {
     for (const criterio of criterios) {
-        const raRow = document.getElementById("tr" + criterio.ra);
+        const criteriTable = document.getElementById("matriz_table");
+        const raRow = criteriTable.querySelector("#tr" + criterio.ra);
         if (raRow) {
             const textareas = raRow.querySelectorAll("td textarea");
             for (let idx = 0; idx < textareas.length; idx++) {
