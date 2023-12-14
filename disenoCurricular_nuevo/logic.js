@@ -243,6 +243,10 @@ function addNewEvidence(value = undefined) {
     }
 }
 
+function handleCellSelection() {
+    $(this).toggleClass("table__selector--selected");
+}
+
 function handleSelector(e) { 
     e.preventDefault();
     $('#matricialSelector > .modal-dialog > .modal-content  .modal-body').empty();
@@ -260,11 +264,15 @@ function handleSelector(e) {
         const trContainer = tdContainer.parentNode;
         const ra = trContainer.querySelector("td:nth-child(1)").textContent;
         const selectorId = ra+"-"+levels[cdIter];
+        $(textarea).attr('data-SelectorId', selectorId);
         $(tdContainer).attr('data-SelectorId', selectorId);
         if(selectedCDs.includes(selectorId)) {
             $(textarea).addClass("table__selector--selected");
             $(tdContainer).addClass("table__selector--selected");
         }
+
+        $(textarea).on("click", handleCellSelection);
+        $(tdContainer).on("click", handleCellSelection);
 
         if(cdIter < levels.length - 1) {
             cdIter++;
