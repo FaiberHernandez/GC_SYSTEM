@@ -318,9 +318,11 @@ function getSelectorOptions() {
 }
 
 function setCDsToChoose(update = false, deletedRa = null) {
+    const preventUnselect = function(e) {e.preventDefault()};
     const options = getSelectorOptions();
 
     $('.selectCDs-select').off( "select2:opening", handleSelector);
+    $('.selectCDs-select').off("select2:unselecting", preventUnselect);
     if (update) {
         $('.selectCDs-select').each(function () {
             let selectedCDs = Array.from($(this).find(":selected")).map(item => item.value);
@@ -352,7 +354,7 @@ function setCDsToChoose(update = false, deletedRa = null) {
         });
         $('.selectCDs-select').on("select2:opening", handleSelector);
     }
-    $(this).on("select2:unselecting", function(e) { e.preventDefault(); });
+    $('.selectCDs-select').on("select2:unselecting", preventUnselect);
 }
 
 function addEvidenceRow(value = undefined) {
@@ -472,9 +474,11 @@ function removeEvidence(element) {
 function recalculateEvidencesNumbers() {
     const rows = document.querySelector("#evidencesTable > tbody").children;
     for (let idx = 0; idx < rows.length; idx++) {
-        console.log(rows[idx].firstChild);
         const input = rows[idx].firstChild.querySelector("input");
         input.value = idx + 1;
+        const selectorType = rows[idx].querySelector("select");
+        $(selectorType).attr("class", "");
+        $(selectorType).attr("class", input.value % 2 === 0 ? "section__field--border-white": "section__field--border-gray");
     }
 }
 

@@ -606,7 +606,7 @@
 }
 
 .table__selector--selected {
-    background-color: #b2dcff !important;
+    background-color: #e8f8fc !important;
     cursor: url(del-cursor-2.png), default !important;
 }
 
