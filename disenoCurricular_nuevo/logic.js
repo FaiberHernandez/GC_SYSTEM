@@ -271,6 +271,7 @@ function handleSelector(e) {
     for(let textarea of textareasInMatriz) {
         $(textarea).attr("readonly", true);
         textarea.style.cssText = "cursor: cell;"
+        $(textarea).addClass("text-elipsis");
         const tdContainer = textarea.parentNode;
         const trContainer = tdContainer.parentNode;
         const ra = trContainer.querySelector("td:nth-child(1)").textContent;
