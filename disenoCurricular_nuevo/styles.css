@@ -610,6 +610,20 @@
     cursor: url(del-cursor-2.png), default !important;
 }
 
+.modal-header, .close {
+    background-color: #004a87;
+    color: white;
+}
+
+.custom-info-icon {
+    padding-left: 0.5485rem;
+    padding-right: 0.5485rem;
+    border: 2px solid;
+    border-radius: 50%;
+    font-size: 85%;
+    cursor: pointer;
+}
+
 @media print {
     @page {
         size: auto;
