@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         placeholder: "< nombre de la unidad académica responsable curricularmente >",
         width: 'resolve'
     });
+    $('[data-toggle="tooltip"]').tooltip();
     loadEducationalLevel();
     createTableCriteriaByRA();
     addKnowledgeResult();
@@ -219,7 +220,8 @@ function addRowCriteriaByRA(ra) {
 }
 
 function removeRowCriteriaByRA(ra) {
-    const tr = document.getElementById("tr" + ra);
+    const table = document.querySelector("#matriz_table > tbody");
+    const tr = table.querySelector("#tr" + ra);
     if (tr) {
         tr.remove();
         recalculateRowCriteriaByRA();
@@ -243,87 +245,56 @@ function addNewEvidence(value = undefined) {
     }
 }
 
-function customResultTemplate(data, container) {
-    if (data.element) {
-        $(container).hover(function () {
-            $(".selectCDs-select").popover('hide');
-            const target = document.querySelector(".selectCDs-select + span.select2-container--open");
-            let popTarget = null;
-            if(target){
-                popTarget = target.parentNode.children[0];
-            }
-            if(popTarget){
-                getRaDescription(data.text);
-                $(popTarget).popover('dispose');
-                $(popTarget).attr("data-toggle", "popover");
-                $(popTarget).attr("title", data.text);
-                $(popTarget).attr("data-content", getRaDescription(data.text));
-                $(popTarget).popover({
-                    trigger: "click",
-                    container: "body",
-                    boundary: 'window',
-                    placement: "left"
-                });
-                $(popTarget).popover('show');
-            }
-        }, function () {
-            // out
+function handleCellSelection(e, select2Target) {
+    $(e.target).toggleClass("table__selector--selected");
+    $(e.target.parentNode).toggleClass("table__selector--selected");
+    const selectedCDs = Array.from($(select2Target).find(":selected")).map(item => item.value);
+    const selectedRa = String($(e.target).attr("data-SelectorId"));
+    if(!selectedCDs.includes(selectedRa)){
+        $(select2Target).val([...selectedCDs,selectedRa]);
+    }else{
+        $(select2Target).val(selectedCDs.filter( option => option !== selectedRa));
+    }
+    $(select2Target).trigger('change')
+}
+
+function handleSelector(e) { 
+    const selectorEvent = e;
+    selectorEvent.preventDefault();
+    $('#matricialSelector > .modal-dialog > .modal-content  .modal-body').empty();
+    $('#matricialSelector').modal();
+    const raTable = document.getElementById("matriz_table").cloneNode(true);
+    $(raTable).attr("id", "matriz_table_selector");
+    const textareasInMatriz = raTable.querySelectorAll("textarea");
+    const selectedCDs = Array.from($(this).find(":selected")).map(item => item.value);
+    let cdIter = 0;
+    for(let textarea of textareasInMatriz) {
+        $(textarea).attr("readonly", true);
+        textarea.style.cssText = "cursor: cell;"
+        const tdContainer = textarea.parentNode;
+        const trContainer = tdContainer.parentNode;
+        const ra = trContainer.querySelector("td:nth-child(1)").textContent;
+        const selectorId = ra+"-"+levels[cdIter];
+        $(textarea).attr('data-SelectorId', selectorId);
+        $(tdContainer).attr('data-SelectorId', selectorId);
+        if(selectedCDs.includes(selectorId)) {
+            $(textarea).addClass("table__selector--selected");
+            $(tdContainer).addClass("table__selector--selected");
         }
-        );
-    }
 
-    return data.text;
-}
+        $(textarea).on("click", function (e) { handleCellSelection(e, selectorEvent.target) });
 
-function addCDsPopOver(target) {
-    $(target).attr("data-toggle", "popover");
-    $(target).attr("title", "text");
-    $(target).attr("data-content", "Contenido de descriptor");
-    $(target).popover({
-        trigger: "click",
-        container: "body",
-        boundary: 'window',
-        placement: "left"
-    });
-
-    $(target).on("select2:open", function() {
-        $(target).popover("show");
-    });
-    $(target).on("select2:close", function() {
-        $(target).popover("hide");
-    });
-}
-
-function getRaDescription(raId) {
-    const raToSearch = raId.split("-")[0];
-    const levelToSarch = raId.split("-")[1];
-    const table = document.getElementById("matriz_table");
-    const CDsList = Array.from(table.querySelectorAll("thead > tr > th:not(:first-child)")).map(cd => cd.textContent);
-    const raList = Array.from(table.querySelectorAll("tbody > tr > td:nth-child(1)")).map(cd => cd.textContent);
-    const cdsDataOptions = [];
-    for (const ra of raList) {
-        const descriptionRow = Array.from(table.querySelectorAll("#tr"+ra+" textarea")).map(descrip => descrip.value);
-        cdsDataOptions.push({
-            ra: ra,
-            CDs: CDsList,
-            descriptions: descriptionRow
-        });
-    }
-    let targetRa = cdsDataOptions.find(option => option.ra === raToSearch);
-    if(targetRa) {
-        let indexOfCDs = targetRa.CDs.indexOf(levelToSarch);
-        let description = targetRa.descriptions[indexOfCDs] || "Sin descripción";
-        if(description.length > 500) {
-            description = description.slice(0, 500);
-            description += "...";
+        if(cdIter < levels.length - 1) {
+            cdIter++;
+        }else{
+            cdIter = 0;
         }
-        return description;
     }
+    $('#matricialSelector > .modal-dialog > .modal-content  .modal-body ').append(raTable);
 
-    return "";
 }
 
-function setCDsToChoose(update = false, deletedRa = null) {
+function getSelectorOptions() {
     const data = [];
     const table = document.getElementById("matriz_table");
     const CDsList = Array.from(table.querySelectorAll("thead > tr > th:not(:first-child)")).map(cd => cd.textContent);
@@ -334,7 +305,6 @@ function setCDsToChoose(update = false, deletedRa = null) {
             CDs: CDsList
         });
     }
-    console.log(data)
     const options = [];
     data.forEach(d => {
         for (const cd of d.CDs) {
@@ -343,16 +313,15 @@ function setCDsToChoose(update = false, deletedRa = null) {
                 text: d.ra + "-" + cd
             });
         }
-    })
-    /* console.log(options);
-    const selectedCDs = Array.from(document.getElementsByClassName("selectCDs"))
-    .map(select => {
-        return Array.from(select.querySelectorAll("option")).map(option => option.value);
-    }); */
+    });
+    return options;
+}
 
+function setCDsToChoose(update = false, deletedRa = null) {
+    const options = getSelectorOptions();
+
+    $('.selectCDs-select').off( "select2:opening", handleSelector);
     if (update) {
-        /* $('.selectCDs').select2().empty().trigger('change');
-        $('.selectCDs').select2('destroy').trigger('change'); */
         $('.selectCDs-select').each(function () {
             let selectedCDs = Array.from($(this).find(":selected")).map(item => item.value);
             if (deletedRa) {
@@ -366,12 +335,10 @@ function setCDsToChoose(update = false, deletedRa = null) {
                 data: [...options],
                 language: {
                     noResults: function () { return "No se encontraron descriptores"; }
-                },
-                templateResult: customResultTemplate
+                }
             });
-            console.log("selectedCDS: ", selectedCDs);
             $(this).val(selectedCDs).trigger('change');
-            addCDsPopOver(this);
+            $(this).on("select2:opening", handleSelector);
         });
     } else {
         $('.selectCDs-select').select2({
@@ -381,11 +348,11 @@ function setCDsToChoose(update = false, deletedRa = null) {
             data: [...options],
             language: {
                 noResults: function () { return "No se encontraron descriptores"; }
-            },
-            templateResult: customResultTemplate
+            }
         });
-        addCDsPopOver('.selectCDs-select');
+        $('.selectCDs-select').on("select2:opening", handleSelector);
     }
+    $(this).on("select2:unselecting", function(e) { e.preventDefault(); });
 }
 
 function addEvidenceRow(value = undefined) {
@@ -572,7 +539,7 @@ function addTextareaEventListener(text) {
         };
     }
 
-    function resize() {
+    function resize(e) {
         text.style.height = 'auto';
         if (text.scrollHeight) text.style.height = (text.scrollHeight + 4) + 'px';
     }
